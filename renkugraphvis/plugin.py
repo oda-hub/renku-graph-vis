@@ -26,14 +26,12 @@ import click
 import rdflib
 import rdflib.tools.rdf2dot
 
-from pathlib import Path
 from renku.domain_model.provenance.annotation import Annotation
 from renku.domain_model.project_context import project_context
 from renku.core.plugin import hookimpl
 from IPython.display import Image, HTML
 from prettytable import PrettyTable
-from aqsconverters.io import AQS_DIR, COMMON_DIR
-from renkugraphvis.config import ENTITY_METADATA_AQS_DIR
+from renkugraphvis.config import ENTITY_METADATA_GRAPHVIS_DIR
 from nb2workflow import ontology
 
 import renkugraphvis.graph_utils as graph_utils
@@ -44,14 +42,9 @@ class GraphVis(object):
         self.run = run
 
     @property
-    def renku_graph_vis_path(self):
-        """Return a ``Path`` instance of Renku GraphVis metadata folder."""
-        return Path(project_context.metadata_path).joinpath(AQS_DIR).joinpath(COMMON_DIR)
-
-    @property
     def graph_vis_annotation_path(self):
         """Return a ``Path`` instance of Renku GraphVis specific annotation."""
-        return Path(ENTITY_METADATA_AQS_DIR)
+        return pathlib.Path(project_context.metadata_path).joinpath(ENTITY_METADATA_GRAPHVIS_DIR)
 
     def load_model(self, path):
         """Load GraphVis reference file."""
@@ -72,16 +65,16 @@ def plan_annotations(plan):
 @hookimpl
 def activity_annotations(activity):
     """``process_run_annotations`` hook implementation."""
-    aqs = AQS(activity)
+    graphvis = GraphVis(activity)
 
-    sitecustomize_path = pathlib.Path(os.path.join(project_context.metadata_path, AQS_DIR, "sitecustomize.py"))
+    sitecustomize_path = pathlib.Path(os.path.join(project_context.metadata_path, ENTITY_METADATA_GRAPHVIS_DIR, "sitecustomize.py"))
     if sitecustomize_path.exists():
         sitecustomize_path.unlink()
 
     annotations = []
 
     print("process_run_annotations")
-    print(aqs.renku_aqs_path)
+    print(graphvis.graph_vis_annotation_path)
     # apply nb2rdf also to input nb and also add the name of the notebook
     # should be related to the input/output notebook
     # add the annotations to the plan
@@ -112,14 +105,14 @@ def activity_annotations(activity):
                         Annotation(id=annotation_id, source="AQS plugin", body=nb2annotation)
                     )
 
-    if os.path.exists(aqs.renku_aqs_path):
-        for p in aqs.renku_aqs_path.iterdir():
+    if os.path.exists(graphvis.graph_vis_annotation_path):
+        for p in graphvis.graph_vis_annotation_path.iterdir():
             if p.match("*json"):
                 print(f"found json annotation: {p}")
                 print(open(p).read())
 
             elif p.match("*jsonld"):
-                aqs_annotation = aqs.load_model(p)
+                aqs_annotation = graphvis.load_model(p)
                 print(f"found jsonLD annotation: {p}\n", json.dumps(aqs_annotation, sort_keys=True, indent=4))
 
                 # this will make annotations according to https://odahub.io/ontology/
@@ -141,7 +134,7 @@ def activity_annotations(activity):
 def pre_run(tool):
     print(f"\033[31mhere we will prepare hooks for astroquery, tool given is {tool}\033[0m")
 
-    sitecustomize_dir = Path(project_context.metadata_path, AQS_DIR)
+    sitecustomize_dir = pathlib.Path(project_context.metadata_path, AQS_DIR)
 
     if not sitecustomize_dir.exists():
         sitecustomize_dir.mkdir(parents=True)

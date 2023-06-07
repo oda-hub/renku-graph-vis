@@ -8,6 +8,7 @@ import json
 import hashlib
 import glob
 import urllib.request
+import pathlib
 
 from prettytable import PrettyTable
 from rdflib.tools.rdf2dot import LABEL_PROPERTIES
@@ -19,7 +20,6 @@ from IPython.display import display
 from pyvis.network import Network
 from importlib import resources
 from nb2workflow import ontology
-from pathlib import Path
 
 from renku.domain_model.project_context import project_context
 from renku.command.graph import export_graph_command
@@ -28,7 +28,7 @@ from renku.core.util.git import get_entity_from_revision
 
 import renkugraphvis.javascript_graph_utils as javascript_graph_utils
 
-from renkugraphvis.config import ENTITY_METADATA_AQS_DIR
+from renkugraphvis.config import ENTITY_METADATA_GRAPHVIS_DIR
 from renkugraphvis.plugin import GraphVis
 
 # TODO improve this
@@ -41,9 +41,10 @@ graph_configuration = yaml.load(open(os.path.join(__this_dir__, "graph_config.ya
 
 def _aqs_graph(revision=None, paths=None):
     G = rdflib.Graph()
-    if os.path.exists(ENTITY_METADATA_AQS_DIR):
+    metadata_path = pathlib.Path(os.path.join(project_context.metadata_path, ENTITY_METADATA_GRAPHVIS_DIR))
+    if metadata_path.exists():
         annotation_list = []
-        entity_folder_list = glob.glob(f"{ENTITY_METADATA_AQS_DIR}/*")
+        entity_folder_list = glob.glob(f"{metadata_path}/*")
         for entity_folder in entity_folder_list:
             print("Scanning entity folder: ", entity_folder)
             revision_entity_folder_list = glob.glob(f"{entity_folder}/*")
@@ -159,7 +160,7 @@ def build_graph_html(revision, paths,
     graph_config_names_list = []
 
     for config_file_fn in graphical_config_list_files:
-        config_file_path = Path(config_file_fn)
+        config_file_path = pathlib.Path(config_file_fn)
         config_file_name = config_file_path.name
         with open(config_file_fn) as graph_config_fn_f:
             graph_config_loaded = json.load(graph_config_fn_f)
@@ -289,15 +290,15 @@ def inspect_oda_graph_inputs(revision, paths, input_notebook: str = None):
             if str(entity_obj.checksum) == str(entity_checksum):
                 # file present on disk based on the checksum equality
                 rdf_nb = ontology.nb2rdf(entity_path)
-                aqs_obj = GraphVis(entity_path)
+                graphvis_obj = GraphVis(entity_path)
                 G.parse(data=rdf_nb)
                 rdf_jsonld_str = G.serialize(format="json-ld")
                 rdf_jsonld = json.loads(rdf_jsonld_str)
 
                 print(f"\033[32mlog_aqs_annotation\033[0m")
 
-                annotation_folder_path = Path(
-                    os.path.join(aqs_obj.aqs_annotation_path, entity_file_name, entity_checksum))
+                annotation_folder_path = pathlib.Path(
+                    os.path.join(graphvis_obj.graph_vis_annotation_path, entity_file_name, entity_checksum))
                 if annotation_folder_path.exists():
                     # directory gets cleaned-up in order to avoid to generate duplicate jsonld files
                     # that can occur in case of new commits where input notebook is not affected
