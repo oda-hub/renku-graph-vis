@@ -134,7 +134,7 @@ def activity_annotations(activity):
 def pre_run(tool):
     print(f"\033[31mhere we will prepare hooks for astroquery, tool given is {tool}\033[0m")
 
-    sitecustomize_dir = pathlib.Path(project_context.metadata_path, AQS_DIR)
+    sitecustomize_dir = pathlib.Path(project_context.metadata_path, ENTITY_METADATA_GRAPHVIS_DIR)
 
     if not sitecustomize_dir.exists():
         sitecustomize_dir.mkdir(parents=True)

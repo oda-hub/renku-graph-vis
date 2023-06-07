@@ -39,7 +39,7 @@ __conf_dir__ = os.path.join(os.path.dirname(__file__), 'configs_dir')
 graph_configuration = yaml.load(open(os.path.join(__this_dir__, "graph_config.yaml")), Loader=yaml.SafeLoader)
 
 
-def _aqs_graph(revision=None, paths=None):
+def _graphvis_graph(revision=None, paths=None):
     G = rdflib.Graph()
     metadata_path = pathlib.Path(os.path.join(project_context.metadata_path, ENTITY_METADATA_GRAPHVIS_DIR))
     if metadata_path.exists():
@@ -93,7 +93,7 @@ def extract_graph(revision, paths):
 
     renku_graph = _renku_graph(revision, paths)
 
-    aqs_graph = _aqs_graph(revision, paths)
+    aqs_graph = _graphvis_graph(revision, paths)
 
     ontologies_graph = _nodes_subset_ontologies_graph()
 
