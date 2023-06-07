@@ -138,9 +138,17 @@ def build_graph_html(revision, paths,
                      include_ttl_content_within_html=True):
 
     # TODO improve this
-    default_graph_graphical_config_fn = 'graph_graphical_config.json'
+    default_graph_graphical_config_fn = 'renku_graph_graphical_config.json'
     graph_nodes_subset_config_fn = 'graph_nodes_subset_config.json'
     graph_reduction_config_fn = 'graph_reduction_config.json'
+
+    default_graph_graphical_config_patter_fn = '*_graph_graphical_config.json'
+    graph_nodes_subset_config_patter_fn = '*_graph_nodes_subset_config.json'
+    graph_reduction_config_patter_fn = '*_graph_reduction_config.json'
+
+    graphical_config_list_files = glob.glob(os.path.join(__conf_dir__, default_graph_graphical_config_patter_fn))
+    nodes_subset_config_list_files = glob.glob(os.path.join(__conf_dir__, graph_nodes_subset_config_patter_fn))
+    reduction_config_list_files = glob.glob(os.path.join(__conf_dir__, graph_reduction_config_patter_fn))
 
     graph_str = extract_graph(revision, paths)
 
@@ -148,52 +156,50 @@ def build_graph_html(revision, paths,
 
     nodes_graph_config_obj = {}
     edges_graph_config_obj = {}
-    nodes_graph_config_obj_str = None
-    edges_graph_config_obj_str = None
-
     graph_config_names_list = []
-    if os.path.exists(os.path.join(__conf_dir__, default_graph_graphical_config_fn)):
-        with open(os.path.join(__conf_dir__, default_graph_graphical_config_fn)) as graph_config_fn_f:
+
+    for config_file_fn in graphical_config_list_files:
+        config_file_path = Path(config_file_fn)
+        config_file_name = config_file_path.name
+        with open(config_file_fn) as graph_config_fn_f:
             graph_config_loaded = json.load(graph_config_fn_f)
             nodes_graph_config_obj_loaded = graph_config_loaded.get('Nodes', {})
             edges_graph_config_obj_loaded = graph_config_loaded.get('Edges', {})
 
         if nodes_graph_config_obj_loaded is not None:
             for config_type in nodes_graph_config_obj_loaded:
-                nodes_graph_config_obj_loaded[config_type]['config_file'] = default_graph_graphical_config_fn
+                nodes_graph_config_obj_loaded[config_type]['config_file'] = config_file_name
             nodes_graph_config_obj.update(nodes_graph_config_obj_loaded)
         if edges_graph_config_obj_loaded is not None:
             for config_type in edges_graph_config_obj_loaded:
-                edges_graph_config_obj_loaded[config_type]['config_file'] = default_graph_graphical_config_fn
+                edges_graph_config_obj_loaded[config_type]['config_file'] = config_file_name
             edges_graph_config_obj.update(edges_graph_config_obj_loaded)
 
-        graph_config_names_list.append(default_graph_graphical_config_fn)
-        # for compatibility with Javascript
-        nodes_graph_config_obj_str = json.dumps(nodes_graph_config_obj).replace("\\\"", '\\\\"')
-        edges_graph_config_obj_str = json.dumps(edges_graph_config_obj).replace("\\\"", '\\\\"')
+        graph_config_names_list.append(config_file_fn)
+    # for compatibility with Javascript
+    nodes_graph_config_obj_str = json.dumps(nodes_graph_config_obj).replace("\\\"", '\\\\"')
+    edges_graph_config_obj_str = json.dumps(edges_graph_config_obj).replace("\\\"", '\\\\"')
 
     graph_reduction_config_obj = {}
-    graph_reductions_obj_str = None
-    if os.path.exists(os.path.join(__conf_dir__, graph_reduction_config_fn)):
-        with open(os.path.join(__conf_dir__, graph_reduction_config_fn)) as graph_reduction_config_fn_f:
+    for config_file_fn in reduction_config_list_files:
+        with open(config_file_fn) as graph_reduction_config_fn_f:
             graph_reduction_config_obj = json.load(graph_reduction_config_fn_f)
 
-        # for compatibility with Javascript
-        graph_reductions_obj_str = json.dumps(graph_reduction_config_obj)
+    # for compatibility with Javascript
+    graph_reductions_obj_str = json.dumps(graph_reduction_config_obj)
 
     graph_nodes_subset_config_obj = {}
-    graph_nodes_subset_config_obj_str = None
-    if os.path.exists(os.path.join("renkugraphvis", graph_nodes_subset_config_fn)):
-        with open(os.path.join(__conf_dir__, graph_nodes_subset_config_fn)) as graph_nodes_subset_config_fn_f:
+    for config_file_fn in nodes_subset_config_list_files:
+        with open(config_file_fn) as graph_nodes_subset_config_fn_f:
             graph_nodes_subset_config_obj = json.load(graph_nodes_subset_config_fn_f)
 
-        # for compatibility with Javascript
-        # FIXME there must be a better way
-        graph_nodes_subset_config_obj_str = json.dumps(graph_nodes_subset_config_obj)\
-            .replace("\\\"", '\\\\"') \
-            .replace("\\\\s", '\\\\\\\\\\\\s') \
-            .replace("\\n", '\\\\n') \
-            .replace("\\t", '\\\\t')
+    # for compatibility with Javascript
+    # FIXME there must be a better way
+    graph_nodes_subset_config_obj_str = json.dumps(graph_nodes_subset_config_obj)\
+        .replace("\\\"", '\\\\"') \
+        .replace("\\\\s", '\\\\\\\\\\\\s') \
+        .replace("\\n", '\\\\n') \
+        .replace("\\t", '\\\\t')
 
     net = Network(
         height='750px', width='100%',
