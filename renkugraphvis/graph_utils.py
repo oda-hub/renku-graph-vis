@@ -33,6 +33,7 @@ from renkugraphvis.plugin import GraphVis
 
 # TODO improve this
 __this_dir__ = os.path.join(os.path.abspath(os.path.dirname(__file__)))
+__conf_dir__ = os.path.join(os.path.dirname(__file__), 'configs_dir')
 
 
 graph_configuration = yaml.load(open(os.path.join(__this_dir__, "graph_config.yaml")), Loader=yaml.SafeLoader)
@@ -151,8 +152,8 @@ def build_graph_html(revision, paths,
     edges_graph_config_obj_str = None
 
     graph_config_names_list = []
-    if os.path.exists(os.path.join(__this_dir__, default_graph_graphical_config_fn)):
-        with resources.open_text("renkugraphvis", default_graph_graphical_config_fn) as graph_config_fn_f:
+    if os.path.exists(os.path.join(__conf_dir__, default_graph_graphical_config_fn)):
+        with open(os.path.join(__conf_dir__, default_graph_graphical_config_fn)) as graph_config_fn_f:
             graph_config_loaded = json.load(graph_config_fn_f)
             nodes_graph_config_obj_loaded = graph_config_loaded.get('Nodes', {})
             edges_graph_config_obj_loaded = graph_config_loaded.get('Edges', {})
@@ -173,8 +174,8 @@ def build_graph_html(revision, paths,
 
     graph_reduction_config_obj = {}
     graph_reductions_obj_str = None
-    if os.path.exists(os.path.join("renkugraphvis", graph_reduction_config_fn)):
-        with resources.open_text("renkuaqs", graph_reduction_config_fn) as graph_reduction_config_fn_f:
+    if os.path.exists(os.path.join(__conf_dir__, graph_reduction_config_fn)):
+        with open(os.path.join(__conf_dir__, graph_reduction_config_fn)) as graph_reduction_config_fn_f:
             graph_reduction_config_obj = json.load(graph_reduction_config_fn_f)
 
         # for compatibility with Javascript
@@ -183,7 +184,7 @@ def build_graph_html(revision, paths,
     graph_nodes_subset_config_obj = {}
     graph_nodes_subset_config_obj_str = None
     if os.path.exists(os.path.join("renkugraphvis", graph_nodes_subset_config_fn)):
-        with resources.open_text("renkuaqs", graph_nodes_subset_config_fn) as graph_nodes_subset_config_fn_f:
+        with open(os.path.join(__conf_dir__, graph_nodes_subset_config_fn)) as graph_nodes_subset_config_fn_f:
             graph_nodes_subset_config_obj = json.load(graph_nodes_subset_config_fn_f)
 
         # for compatibility with Javascript
