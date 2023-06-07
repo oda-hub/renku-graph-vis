@@ -169,6 +169,15 @@ def add_js_click_functionality(net, graph_ttl_stream=None,
     net.html = net.html.replace('drawGraph();', '')
     soup = bs4.BeautifulSoup(net.html, "html.parser")
 
+    if nodes_graph_config_obj_str is None:
+        nodes_graph_config_obj_str = '""'
+    if edges_graph_config_obj_str is None:
+        edges_graph_config_obj_str = '""'
+    if graph_nodes_subset_config_obj_str is None:
+        graph_nodes_subset_config_obj_str = '""'
+    if graph_reductions_obj_str is None:
+        graph_reductions_obj_str = '""'
+
     javascript_content = f'''
     // initialize global variables.
     var nodes_graph_config_obj = JSON.parse('{nodes_graph_config_obj_str}');
@@ -177,6 +186,7 @@ def add_js_click_functionality(net, graph_ttl_stream=None,
     var graph_reductions_obj = JSON.parse('{graph_reductions_obj_str}');
     var graph_version = ``;
     '''
+
     if include_ttl_content_within_html:
         javascript_content += f'\nvar graph_ttl_content = `{graph_ttl_stream}`;'
     else:

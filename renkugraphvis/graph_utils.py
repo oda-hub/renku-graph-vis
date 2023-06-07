@@ -113,19 +113,20 @@ def extract_graph(revision, paths):
 def _nodes_subset_ontologies_graph():
     G = rdflib.Graph()
     graph_nodes_subset_config_fn = 'graph_nodes_subset_config.json'
-    with resources.open_text("renkuaqs", graph_nodes_subset_config_fn) as graph_nodes_subset_config_fn_f:
-        graph_nodes_subset_config_obj = json.load(graph_nodes_subset_config_fn_f)
+    if os.path.exists(os.path.join("renkugraphvis", graph_nodes_subset_config_fn)):
+        with resources.open_text("renkugraphvis", graph_nodes_subset_config_fn) as graph_nodes_subset_config_fn_f:
+            graph_nodes_subset_config_obj = json.load(graph_nodes_subset_config_fn_f)
 
-    for subset_obj_name, subset_obj_dict in graph_nodes_subset_config_obj.items():
-        if 'ontology_url' in subset_obj_dict:
-            data = urllib.request.urlopen(subset_obj_dict['ontology_url'])
-            G.parse(data)
-        elif 'ontology_path' in subset_obj_dict:
-            if os.path.exists(subset_obj_dict['ontology_path']):
-                with open(subset_obj_dict['ontology_path']) as oo_fn:
-                    G.parse(oo_fn)
-            else:
-                print(f"\033[31m{subset_obj_dict['ontology_path']} not found\033[0m")
+        for subset_obj_name, subset_obj_dict in graph_nodes_subset_config_obj.items():
+            if 'ontology_url' in subset_obj_dict:
+                data = urllib.request.urlopen(subset_obj_dict['ontology_url'])
+                G.parse(data)
+            elif 'ontology_path' in subset_obj_dict:
+                if os.path.exists(subset_obj_dict['ontology_path']):
+                    with open(subset_obj_dict['ontology_path']) as oo_fn:
+                        G.parse(oo_fn)
+                else:
+                    print(f"\033[31m{subset_obj_dict['ontology_path']} not found\033[0m")
 
     return G
 
@@ -135,6 +136,7 @@ def build_graph_html(revision, paths,
                      template_location="local",
                      include_ttl_content_within_html=True):
 
+    # TODO improve this
     default_graph_graphical_config_fn = 'graph_graphical_config.json'
     graph_nodes_subset_config_fn = 'graph_nodes_subset_config.json'
     graph_reduction_config_fn = 'graph_reduction_config.json'
@@ -145,42 +147,52 @@ def build_graph_html(revision, paths,
 
     nodes_graph_config_obj = {}
     edges_graph_config_obj = {}
+    nodes_graph_config_obj_str = None
+    edges_graph_config_obj_str = None
 
     graph_config_names_list = []
-    with resources.open_text("renkuaqs", default_graph_graphical_config_fn) as graph_config_fn_f:
-        graph_config_loaded = json.load(graph_config_fn_f)
-        nodes_graph_config_obj_loaded = graph_config_loaded.get('Nodes', {})
-        edges_graph_config_obj_loaded = graph_config_loaded.get('Edges', {})
+    if os.path.exists(os.path.join(__this_dir__, default_graph_graphical_config_fn)):
+        with resources.open_text("renkugraphvis", default_graph_graphical_config_fn) as graph_config_fn_f:
+            graph_config_loaded = json.load(graph_config_fn_f)
+            nodes_graph_config_obj_loaded = graph_config_loaded.get('Nodes', {})
+            edges_graph_config_obj_loaded = graph_config_loaded.get('Edges', {})
 
-    if nodes_graph_config_obj_loaded:
-        for config_type in nodes_graph_config_obj_loaded:
-            nodes_graph_config_obj_loaded[config_type]['config_file'] = default_graph_graphical_config_fn
-        nodes_graph_config_obj.update(nodes_graph_config_obj_loaded)
-    if edges_graph_config_obj_loaded:
-        for config_type in edges_graph_config_obj_loaded:
-            edges_graph_config_obj_loaded[config_type]['config_file'] = default_graph_graphical_config_fn
-        edges_graph_config_obj.update(edges_graph_config_obj_loaded)
-    graph_config_names_list.append(default_graph_graphical_config_fn)
-    # for compatibility with Javascript
-    nodes_graph_config_obj_str = json.dumps(nodes_graph_config_obj).replace("\\\"", '\\\\"')
-    edges_graph_config_obj_str = json.dumps(edges_graph_config_obj).replace("\\\"", '\\\\"')
+        if nodes_graph_config_obj_loaded is not None:
+            for config_type in nodes_graph_config_obj_loaded:
+                nodes_graph_config_obj_loaded[config_type]['config_file'] = default_graph_graphical_config_fn
+            nodes_graph_config_obj.update(nodes_graph_config_obj_loaded)
+        if edges_graph_config_obj_loaded is not None:
+            for config_type in edges_graph_config_obj_loaded:
+                edges_graph_config_obj_loaded[config_type]['config_file'] = default_graph_graphical_config_fn
+            edges_graph_config_obj.update(edges_graph_config_obj_loaded)
 
-    with resources.open_text("renkuaqs", graph_reduction_config_fn) as graph_reduction_config_fn_f:
-        graph_reduction_config_obj = json.load(graph_reduction_config_fn_f)
+        graph_config_names_list.append(default_graph_graphical_config_fn)
+        # for compatibility with Javascript
+        nodes_graph_config_obj_str = json.dumps(nodes_graph_config_obj).replace("\\\"", '\\\\"')
+        edges_graph_config_obj_str = json.dumps(edges_graph_config_obj).replace("\\\"", '\\\\"')
 
-    # for compatibility with Javascript
-    graph_reductions_obj_str = json.dumps(graph_reduction_config_obj)
+    graph_reduction_config_obj = {}
+    graph_reductions_obj_str = None
+    if os.path.exists(os.path.join("renkugraphvis", graph_reduction_config_fn)):
+        with resources.open_text("renkuaqs", graph_reduction_config_fn) as graph_reduction_config_fn_f:
+            graph_reduction_config_obj = json.load(graph_reduction_config_fn_f)
 
-    with resources.open_text("renkuaqs", graph_nodes_subset_config_fn) as graph_nodes_subset_config_fn_f:
-        graph_nodes_subset_config_obj = json.load(graph_nodes_subset_config_fn_f)
+        # for compatibility with Javascript
+        graph_reductions_obj_str = json.dumps(graph_reduction_config_obj)
 
-    # for compatibility with Javascript
-    # FIXME there must be a better way
-    graph_nodes_subset_config_obj_str = json.dumps(graph_nodes_subset_config_obj)\
-        .replace("\\\"", '\\\\"') \
-        .replace("\\\\s", '\\\\\\\\\\\\s') \
-        .replace("\\n", '\\\\n') \
-        .replace("\\t", '\\\\t')
+    graph_nodes_subset_config_obj = {}
+    graph_nodes_subset_config_obj_str = None
+    if os.path.exists(os.path.join("renkugraphvis", graph_nodes_subset_config_fn)):
+        with resources.open_text("renkuaqs", graph_nodes_subset_config_fn) as graph_nodes_subset_config_fn_f:
+            graph_nodes_subset_config_obj = json.load(graph_nodes_subset_config_fn_f)
+
+        # for compatibility with Javascript
+        # FIXME there must be a better way
+        graph_nodes_subset_config_obj_str = json.dumps(graph_nodes_subset_config_obj)\
+            .replace("\\\"", '\\\\"') \
+            .replace("\\\\s", '\\\\\\\\\\\\s') \
+            .replace("\\n", '\\\\n') \
+            .replace("\\t", '\\\\t')
 
     net = Network(
         height='750px', width='100%',
