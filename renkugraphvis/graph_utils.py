@@ -113,17 +113,17 @@ def extract_graph(revision, paths, graph_nodes_subset_config=None):
 def _nodes_subset_ontologies_graph(graph_nodes_subset_config=None):
     G = rdflib.Graph()
     if graph_nodes_subset_config is not None:
-        for graph_nodes_subset_config_obj in graph_nodes_subset_config:
-            for subset_obj_key, subset_obj_value in graph_nodes_subset_config[graph_nodes_subset_config_obj].items():
-                if subset_obj_key == 'ontology_url':
-                    data = urllib.request.urlopen(subset_obj_value)
-                    G.parse(data)
-                elif subset_obj_key == 'ontology_path':
-                    if os.path.exists(subset_obj_value):
-                        with open(subset_obj_value) as oo_fn:
-                            G.parse(oo_fn)
-                    else:
-                        print(f"\033[31m{subset_obj_value} not found\033[0m")
+        for graph_nodes_subset_config_obj_key in graph_nodes_subset_config:
+            graph_nodes_subset_config_obj = graph_nodes_subset_config[graph_nodes_subset_config_obj_key]
+            if 'ontology_url' in graph_nodes_subset_config_obj:
+                data = urllib.request.urlopen(graph_nodes_subset_config_obj['ontology_url'])
+                G.parse(data)
+            elif 'ontology_path' in graph_nodes_subset_config_obj:
+                if os.path.exists(graph_nodes_subset_config_obj['ontology_path']):
+                    with open(subset_obj_value) as oo_fn:
+                        G.parse(oo_fn)
+                else:
+                    print(f"\033[31m{graph_nodes_subset_config_obj['ontology_path']} not found\033[0m")
 
     return G
 
@@ -167,18 +167,22 @@ def build_graph_html(revision, paths,
     nodes_graph_config_obj_str = json.dumps(nodes_graph_config_obj).replace("\\\"", '\\\\"')
     edges_graph_config_obj_str = json.dumps(edges_graph_config_obj).replace("\\\"", '\\\\"')
 
-    graph_reduction_config_obj = {}
+    graph_reduction_config_obj = None
     for config_file_fn in reduction_config_list_files:
         with open(config_file_fn) as graph_reduction_config_fn_f:
+            if graph_reduction_config_obj is None:
+                graph_reduction_config_obj = {}
             graph_reduction_config_obj = json.load(graph_reduction_config_fn_f)
 
     # for compatibility with Javascript
     graph_reductions_obj_str = json.dumps(graph_reduction_config_obj)
 
-    graph_nodes_subset_config_obj = {}
+    graph_nodes_subset_config_obj = None
     for config_file_fn in nodes_subset_config_list_files:
         with open(config_file_fn) as graph_nodes_subset_config_fn_f:
-            graph_nodes_subset_config_obj = json.load(graph_nodes_subset_config_fn_f)
+            if graph_nodes_subset_config_obj is None:
+                graph_nodes_subset_config_obj = {}
+            graph_nodes_subset_config_obj.update(json.load(graph_nodes_subset_config_fn_f))
 
     # for compatibility with Javascript
     # FIXME there must be a better way
@@ -317,11 +321,21 @@ def build_graph_image(revision, paths, filename, input_notebook):
     if paths is None:
         paths = project_context.path
 
-    graph = extract_graph(revision, paths)
+    graph_nodes_subset_config_patter_fn = '*_graph_nodes_subset_config.json'
+    nodes_subset_config_list_files = glob.glob(os.path.join(__conf_dir__, graph_nodes_subset_config_patter_fn))
+
+    graph_nodes_subset_config_obj = None
+    for config_file_fn in nodes_subset_config_list_files:
+        with open(config_file_fn) as graph_nodes_subset_config_fn_f:
+            if graph_nodes_subset_config_obj is None:
+                graph_nodes_subset_config_obj = {}
+            graph_nodes_subset_config_obj = json.load(graph_nodes_subset_config_fn_f)
+
+    graph = extract_graph(revision, paths, graph_nodes_subset_config=graph_nodes_subset_config_obj)
     renku_path = paths
 
-    query_where = build_query_where(input_notebook=input_notebook)
-    query_construct = build_query_construct()
+    query_where = build_query_where(input_notebook=input_notebook, graph_nodes_subset_config=graph_nodes_subset_config_obj)
+    query_construct = build_query_construct(graph_nodes_subset_config=graph_nodes_subset_config_obj)
 
     query = f"""{query_construct}
                {query_where}
@@ -349,7 +363,7 @@ def build_graph_image(revision, paths, filename, input_notebook):
     analyze_outputs(G, out_default_value_dict)
     analyze_types(G, type_label_values_dict)
 
-    clean_graph(G)
+    # clean_graph(G)
 
     stream = io.StringIO()
     rdf2dot.rdf2dot(G, stream, opts={display})
@@ -536,138 +550,93 @@ def customize_node(node: typing.Union[pydotplus.Node],
             # serialize back the table html
             node.obj_dict['attributes']['label'] = '< ' + etree.tostring(table_html, encoding='unicode') + ' >'
 
-def build_query_where(input_notebook: str = None):
-    if input_notebook is not None:
-        query_where = f"""WHERE {{
-            {{
-                ?entityInput a <http://www.w3.org/ns/prov#Entity> ;
-                    <http://www.w3.org/ns/prov#atLocation> ?entityInputLocation .
-                        
-                ?entityOutput a <http://www.w3.org/ns/prov#Entity> ; 
-                    <http://www.w3.org/ns/prov#qualifiedGeneration>/<http://www.w3.org/ns/prov#activity> ?activity ;
-                    <http://www.w3.org/ns/prov#atLocation> ?entityOutputLocation . 
-                        
-                FILTER ( ?entityInputLocation = '{input_notebook}' ) .
+def build_query_where(input_notebook: str = None, graph_nodes_subset_config = None):
+    query_where = """
+    WHERE {
+    
+        ?entityInput a <http://www.w3.org/ns/prov#Entity> ;
+            <http://www.w3.org/ns/prov#atLocation> ?entityInputLocation ;
+            <https://swissdatasciencecenter.github.io/renku-ontology#checksum> ?entityInputChecksum .
                     
-        """
-    else:
-        query_where = """WHERE {
-            {
-                ?entityInput a <http://www.w3.org/ns/prov#Entity> ;
-                    <http://www.w3.org/ns/prov#atLocation> ?entityInputLocation .
-                    
-                ?entityOutput a <http://www.w3.org/ns/prov#Entity> ; 
-                    <http://www.w3.org/ns/prov#qualifiedGeneration>/<http://www.w3.org/ns/prov#activity> ?activity ;
-                    <http://www.w3.org/ns/prov#atLocation> ?entityOutputLocation . 
-                    
-        """
-
-    query_where += """
-                OPTIONAL { ?actionParam <https://swissdatasciencecenter.github.io/renku-ontology#position> ?actionPosition } .
-            }
-            {    
-                ?activity a ?activityType ;
-                    <https://swissdatasciencecenter.github.io/renku-ontology#parameter> ?parameter_value ;
-                    <http://www.w3.org/ns/prov#startedAtTime> ?activityTime ;
-                    <http://www.w3.org/ns/prov#qualifiedAssociation>/<http://www.w3.org/ns/prov#hadPlan>/<https://swissdatasciencecenter.github.io/renku-ontology#command> ?actionCommand ;
-                    <http://www.w3.org/ns/prov#qualifiedUsage>/<http://www.w3.org/ns/prov#entity> ?entityInput .
-                    
-            """
-                    # <http://www.w3.org/ns/prov#qualifiedAssociation>/<http://www.w3.org/ns/prov#hadPlan> ?action ;
-    query_where += """
-        OPTIONAL {
-            {
-                ?run <http://odahub.io/ontology#isUsing> ?aq_module ;
-                     <http://odahub.io/ontology#isRequestingAstroObject> ?a_object ;
-                     a ?run_rdf_type ;
-                     ^oa:hasBody/oa:hasTarget ?runId ;
-                     ^oa:hasBody/oa:hasTarget ?activity .
+        ?entityOutput a <http://www.w3.org/ns/prov#Entity> ; 
+            <http://www.w3.org/ns/prov#qualifiedGeneration>/<http://www.w3.org/ns/prov#activity> ?activity ;
+            <http://www.w3.org/ns/prov#atLocation> ?entityOutputLocation ;
+            <https://swissdatasciencecenter.github.io/renku-ontology#checksum> ?entityOutputChecksum .
+    
+        ?activity a ?activityType ;
+            <http://www.w3.org/ns/prov#startedAtTime> ?activityTime ;
+            <http://www.w3.org/ns/prov#qualifiedAssociation>/<http://www.w3.org/ns/prov#hadPlan>/<https://swissdatasciencecenter.github.io/renku-ontology#command> ?activityCommand ;
+            <http://www.w3.org/ns/prov#qualifiedUsage>/<http://www.w3.org/ns/prov#entity> ?entityInput .
             
-                ?aq_module <http://purl.org/dc/terms/title> ?aq_module_name ;
-                    a ?aq_mod_rdf_type .
+    """
 
-                ?a_object <http://purl.org/dc/terms/title> ?a_object_name ;
-                    a ?a_obj_rdf_type .
+    if input_notebook is not None:
+        query_where += f"""
+                        
+            FILTER ( ?entityInputLocation = '{input_notebook}' ) .
+                    
+        """
 
-                OPTIONAL {{ ?run <http://purl.org/dc/terms/title> ?run_title . }}
+    query_where += """
+    OPTIONAL 
+    {
+    """
 
-                ?run ?p ?o .
+    # query_where += """
+    #             OPTIONAL { ?actionParam <https://swissdatasciencecenter.github.io/renku-ontology#position> ?actionPosition } .
+    #         }
+    #         {
+    #             ?activity a ?activityType ;
+    #                 <https://swissdatasciencecenter.github.io/renku-ontology#parameter> ?parameter_value ;
+    #                 <http://www.w3.org/ns/prov#startedAtTime> ?activityTime ;
+    #                 <http://www.w3.org/ns/prov#qualifiedAssociation>/<http://www.w3.org/ns/prov#hadPlan>/<https://swissdatasciencecenter.github.io/renku-ontology#command> ?actionCommand ;
+    #                 <http://www.w3.org/ns/prov#qualifiedUsage>/<http://www.w3.org/ns/prov#entity> ?entityInput .
+    #
+    #         """
+    #                 # <http://www.w3.org/ns/prov#qualifiedAssociation>/<http://www.w3.org/ns/prov#hadPlan> ?action ;
 
-                FILTER (!CONTAINS(str(?a_object), " ")) .
-            }
-            UNION
-            {
-                ?run <http://odahub.io/ontology#isUsing> ?aq_module ;
-                     <http://odahub.io/ontology#isRequestingAstroRegion> ?a_region ;
-                     a ?run_rdf_type ;
-                     ^oa:hasBody/oa:hasTarget ?runId ;
-                     ^oa:hasBody/oa:hasTarget ?activity .
+    if graph_nodes_subset_config is not None:
+        for graph_nodes_subset_config_obj_key in graph_nodes_subset_config:
+            graph_nodes_subset_config_obj = graph_nodes_subset_config[graph_nodes_subset_config_obj_key]
+            if 'query_where' in graph_nodes_subset_config_obj:
+                query_where += graph_nodes_subset_config_obj['query_where']
 
-                ?aq_module a ?aq_mod_rdf_type ;
-                    <http://purl.org/dc/terms/title> ?aq_module_name .
-
-                ?a_region a ?a_region_type ; 
-                    <http://purl.org/dc/terms/title> ?a_region_name ;
-                    <http://odahub.io/ontology#isUsingSkyCoordinates> ?a_sky_coordinates ;
-                    <http://odahub.io/ontology#isUsingRadius> ?a_radius .
-
-                ?a_sky_coordinates a ?a_sky_coordinates_type ;
-                    <http://purl.org/dc/terms/title> ?a_sky_coordinates_name .
-
-                ?a_radius a ?a_radius_type ;
-                    <http://purl.org/dc/terms/title> ?a_radius_name .
-
-                OPTIONAL {{ ?run <http://purl.org/dc/terms/title> ?run_title . }}
-
-                ?run ?p ?o .
-            }
-            UNION
-            {
-                ?run <http://odahub.io/ontology#isUsing> ?aq_module ;
-                     <http://odahub.io/ontology#isRequestingAstroImage> ?a_image ;
-                     a ?run_rdf_type ;
-                     ^oa:hasBody/oa:hasTarget ?runId ;
-                     ^oa:hasBody/oa:hasTarget ?activity .
-
-                ?aq_module a ?aq_mod_rdf_type ;
-                    <http://purl.org/dc/terms/title> ?aq_module_name .
-
-                ?a_image a ?a_image_type ;
-                    <http://purl.org/dc/terms/title> ?a_image_name ;
-
-                OPTIONAL {{ ?a_image <http://odahub.io/ontology#isUsingCoordinates> ?a_coordinates .
-                     ?a_coordinates a ?a_coordinates_type ;
-                         <http://purl.org/dc/terms/title> ?a_coordinates_name .
-                }}
-                OPTIONAL {{ ?a_image <http://odahub.io/ontology#isUsingPosition> ?a_position .
-                     ?a_position a ?a_position_type ;
-                         <http://purl.org/dc/terms/title> ?a_position_name .
-                }}
-                OPTIONAL {{ ?a_image <http://odahub.io/ontology#isUsingRadius> ?a_radius .
-                    ?a_radius a ?a_radius_type ;
-                        <http://purl.org/dc/terms/title> ?a_radius_name .
-                }}
-                OPTIONAL {{ ?a_image <http://odahub.io/ontology#isUsingPixels> ?a_pixels .
-                    ?a_pixels a ?a_pixels_type ;
-                        <http://purl.org/dc/terms/title> ?a_pixels_name .
-                }}
-                OPTIONAL {{ ?a_image <http://odahub.io/ontology#isUsingImageBand> ?a_image_band .
-                    ?a_image_band a ?a_image_band_type ;
-                        <http://purl.org/dc/terms/title> ?a_image_band_name .
-                }}
-
-                OPTIONAL {{ ?run <http://purl.org/dc/terms/title> ?run_title . }}
-
-                ?run ?p ?o .
-            }
-        }
-        }
+    query_where += """
+    }
+            
     }
     """
+    # {
+    #     SELECT ?activity (GROUP_CONCAT(?entityArgumentPrefixedDefaultValue; separator=" ") AS ?entityArgument)
+    #     WHERE
+    #     {
+    #         {
+    #             SELECT ?activity (CONCAT(COALESCE(?entityArgumentPrefix, "")," ",?entityArgumentDefaultValue) AS ?entityArgumentPrefixedDefaultValue) ?entityArgumentDefaultValue
+    #             WHERE {
+    #                 OPTIONAL {
+    #                     ?activity <http://www.w3.org/ns/prov#qualifiedAssociation>/
+    #                             <http://www.w3.org/ns/prov#hadPlan>/
+    #                             <https://swissdatasciencecenter.github.io/renku-ontology#hasArguments> ?argument .
+    #
+    #                     ?argument <https://swissdatasciencecenter.github.io/renku-ontology#position> ?entityArgumentPosition ;
+    #                             <http://schema.org/defaultValue> ?entityArgumentDefaultValue .
+    #
+    #                     OPTIONAL {
+    #                         ?argument <https://swissdatasciencecenter.github.io/renku-ontology#prefix> ?entityArgumentPrefix .
+    #                     }
+    #                 }
+    #
+    #             }
+    #             ORDER BY ASC(?entityArgumentPosition)
+    #         }
+    #     }
+    #     GROUP BY ?activity
+    # }
+
     return query_where
 
 
-def build_query_construct(node_subset_config=None):
+def build_query_construct(graph_nodes_subset_config=None):
     # add time activity information
     query_construct_main = """
         ?entityOutput a <https://swissdatasciencecenter.github.io/renku-ontology#CommandOutput> ;
@@ -680,63 +649,26 @@ def build_query_construct(node_subset_config=None):
         
         ?activity a ?activityType ;
             <http://www.w3.org/ns/prov#startedAtTime> ?activityTime ;
-            <https://swissdatasciencecenter.github.io/renku-ontology#hasInputs> ?entityInput ;
             <https://swissdatasciencecenter.github.io/renku-ontology#command> ?activityCommand ;
+            <https://swissdatasciencecenter.github.io/renku-ontology#hasInputs> ?entityInput ;
             <https://swissdatasciencecenter.github.io/renku-ontology#hasOutputs> ?entityOutput ;
             <https://swissdatasciencecenter.github.io/renku-ontology#argument> ?entityArgument .
     """
 
-    query_construct_from_config = """
-            ?run <http://odahub.io/ontology#isRequestingAstroObject> ?a_object ;
-                <http://odahub.io/ontology#isRequestingAstroRegion> ?a_region ;
-                <http://odahub.io/ontology#isRequestingAstroImage> ?a_image ;
-                <http://purl.org/dc/terms/title> ?run_title ;
-                <http://odahub.io/ontology#isUsing> ?aq_module ;
-                oa:hasTarget ?activity ;
-                a ?run_rdf_type .
-            
-            ?aq_module <https://odahub.io/ontology#AQModule> ?aq_module_name ;
-                a ?aq_mod_rdf_type .
+    query_construct_from_config = ""
 
-            ?a_object <https://odahub.io/ontology#AstroObject> ?a_object_name ;
-                a ?a_obj_rdf_type .
-
-            ?a_region a ?a_region_type ; 
-                <http://purl.org/dc/terms/title> ?a_region_name ;
-                <http://odahub.io/ontology#isUsingSkyCoordinates> ?a_sky_coordinates ;
-                <http://odahub.io/ontology#isUsingRadius> ?a_radius .
-
-            ?a_image a ?a_image_type ;
-                <http://purl.org/dc/terms/title> ?a_image_name ;
-                <http://odahub.io/ontology#isUsingCoordinates> ?a_coordinates ;
-                <http://odahub.io/ontology#isUsingPosition> ?a_position ;
-                <http://odahub.io/ontology#isUsingRadius> ?a_radius ;
-                <http://odahub.io/ontology#isUsingPixels> ?a_pixels ;
-                <http://odahub.io/ontology#isUsingImageBand> ?a_image_band .
-
-            ?a_pixels a ?a_pixels_type ;
-                <http://purl.org/dc/terms/title> ?a_pixels_name .
-
-            ?a_image_band a ?a_image_band_type ;
-                <http://purl.org/dc/terms/title> ?a_image_band_name .
-
-            ?a_coordinates a ?a_coordinates_type ;
-                <http://purl.org/dc/terms/title> ?a_coordinates_name .
-                
-            ?a_sky_coordinates a ?a_sky_coordinates_type ;
-                <http://purl.org/dc/terms/title> ?a_sky_coordinates_name .
-                
-            ?a_position a ?a_position_type ;
-                <http://purl.org/dc/terms/title> ?a_position_name .
-
-            ?a_radius a ?a_radius_type ;
-                <http://purl.org/dc/terms/title> ?a_radius_name .
-        """
+    if graph_nodes_subset_config is not None:
+        for graph_nodes_subset_config_obj_key in graph_nodes_subset_config:
+            graph_nodes_subset_config_obj = graph_nodes_subset_config[graph_nodes_subset_config_obj_key]
+            if 'query_construct' in graph_nodes_subset_config_obj:
+                query_construct_from_config += graph_nodes_subset_config_obj['query_construct']
 
     query_construct = f"""CONSTRUCT {{
-                {query_construct_main}
-                {query_construct_from_config}
-            }}"""
+        {query_construct_main}
+        {query_construct_from_config}
+    }}"""
+
+    print(query_construct)
 
     return query_construct
 
