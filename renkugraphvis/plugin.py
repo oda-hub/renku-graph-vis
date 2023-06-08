@@ -54,15 +54,6 @@ class GraphVis(object):
 
 
 @hookimpl
-def plan_annotations(plan):
-    print(f"plan_annotations, plan \033[31m{plan.name}\033[0m")
-
-    annotations = []
-
-    return annotations
-
-
-@hookimpl
 def activity_annotations(activity):
     """``process_run_annotations`` hook implementation."""
     graphvis = GraphVis(activity)
