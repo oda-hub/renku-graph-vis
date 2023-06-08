@@ -107,9 +107,7 @@ def extract_graph(revision, paths):
     overall_graph.bind("odas", "https://odahub.io/ontology#")
     overall_graph.bind("local-renku", f"file://{paths}/")
 
-    graph_str = overall_graph.serialize(format="n3")
-
-    return graph_str
+    return overall_graph
 
 
 def _nodes_subset_ontologies_graph():
@@ -151,7 +149,8 @@ def build_graph_html(revision, paths,
     nodes_subset_config_list_files = glob.glob(os.path.join(__conf_dir__, graph_nodes_subset_config_patter_fn))
     reduction_config_list_files = glob.glob(os.path.join(__conf_dir__, graph_reduction_config_patter_fn))
 
-    graph_str = extract_graph(revision, paths)
+    overall_graph = extract_graph(revision, paths)
+    graph_str = overall_graph.serialize(format="n3")
 
     full_graph_ttl_str = graph_str.replace("\\\"", '\\\\"')
 
@@ -326,7 +325,8 @@ def build_graph_image(revision, paths, filename, no_oda_info, input_notebook):
     if paths is None:
         paths = project_context.path
 
-    graph = _renku_graph(revision, paths)
+    # graph = _renku_graph(revision, paths)
+    graph = extract_graph(revision, paths)
     renku_path = paths
 
     query_where = build_query_where(input_notebook=input_notebook, no_oda_info=no_oda_info)
@@ -864,13 +864,7 @@ def analyze_arguments(g, action_node_dict, args_default_value_dict):
             g.add((node_args,
                    rdflib.URIRef('http://schema.org/defaultValue'),
                    rdflib.Literal((x[0] + " " + y[0]).strip())))
-            # type for the node args
-            # TODO to discuss what the best approach to assign the type case is:
-            # to create a node with a dedicated type inferred from the arguments
-            # G.add((node_args,
-            #        rdflib.RDF.type,
-            #        rdflib.URIRef("https://swissdatasciencecenter.github.io/renku-ontology#" + x[0])))
-            # or still create a new CommandParameter and use the defaultValue information
+            # create a new CommandParameter and use the defaultValue information
             g.add((node_args,
                    rdflib.RDF.type,
                    rdflib.URIRef("https://swissdatasciencecenter.github.io/renku-ontology#CommandParameter")))

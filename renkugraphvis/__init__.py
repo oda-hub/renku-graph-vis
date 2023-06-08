@@ -92,14 +92,15 @@ class HTTPGraphHandler(SimpleHTTPRequestHandler):
 
         if self.path.startswith('/ttl_graph'):
             graph_ttl_content = graph_utils.extract_graph(None, paths=os.getcwd())
-            logging.info(f"ttl graph = {graph_ttl_content[0:100]}")
+            graph_ttl_content_strr = graph_ttl_content.serialize(format="n3")
+            logging.info(f"ttl graph = {graph_ttl_content_strr[0:100]}")
             repo = Repo('.')
             sha = repo.head.commit.hexsha
             short_sha = repo.git.rev_parse(sha, short=8)
             logging.info(f"Graph version, git revision is: {short_sha}")
 
             output_obj = {
-                'graph_ttl_content': graph_ttl_content,
+                'graph_ttl_content': graph_ttl_content_strr,
                 'graph_version': short_sha
             }
             self.send_response(200)
@@ -151,8 +152,8 @@ def setup_graph_visualizer():
         'command': [
             'bash',
             '-c',
-            f'python -c \'import renkuaqs; import os; from renku.domain_model.project_context import project_context; '
-                f'project_context.push_path(os.getcwd()); renkuaqs._start_graph_http_server("{mount_dir}", "{{port}}")\''
+            f'python -c \'import renkugraphvis; import os; from renku.domain_model.project_context import project_context; '
+                f'project_context.push_path(os.getcwd()); renkugraphvis._start_graph_http_server("{mount_dir}", "{{port}}")\''
         ],
         'new_browser_tab': False,
         'launcher_entry': {
