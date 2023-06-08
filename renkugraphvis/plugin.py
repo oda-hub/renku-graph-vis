@@ -202,13 +202,12 @@ def inspect(revision, paths, input_notebook):
 )
 @click.option("--filename", default="graph.png", help="The filename of the output file image")
 @click.option("--input-notebook", default=None, help="Input notebook to process")
-@click.option("--no-oda-info", is_flag=True, help="Exclude oda related information in the output graph")
 @click.argument("paths", type=click.Path(exists=False), nargs=-1)
-def display(revision, paths, filename, no_oda_info, input_notebook):
+def display(revision, paths, filename, input_notebook):
     path = paths
     if paths is not None and isinstance(paths, click.Path):
         path = str(path)
-    output_filename = graph_utils.build_graph_image(revision, path, filename, no_oda_info, input_notebook)
+    output_filename = graph_utils.build_graph_image(revision, path, filename, input_notebook)
     return output_filename
 
 
