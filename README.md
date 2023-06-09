@@ -5,11 +5,12 @@ Starting from the knowledge graph extracted from the renku project, this is quer
 perform some inferring and generating an interactive graphical representation.
 
 In particular, two commands are provided:
+% TODO deprecated?
 * `display` to generate a representation of the graph over an output image (probably will be deprecated)
 * `show-graph` to start an interactive visualization of the graph over the browser 
 
 ### `display` command
-
+<details>
 CLI command to output a graphical representation of the graph over a png image.
 
 In particular, the following information are elaborated:
@@ -32,3 +33,4 @@ $ renku aqs display --input-notebook final-an.ipynb
 
 ![](readme_imgs/example_display_graph_final-an.png)
 
+</details>
