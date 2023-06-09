@@ -65,7 +65,7 @@ class HTTPGraphHandler(SimpleHTTPRequestHandler):
                 self.send_response(200)
                 self.send_header("Content-type", "text/html")
                 self.end_headers()
-                graph_utils.inspect_oda_graph_inputs(None, paths=os.getcwd())
+                graph_utils.inspect_entity_inputs(None, paths=os.getcwd())
                 graph_html_content, ttl_content = graph_utils.build_graph_html(None, paths=os.getcwd(),
                                                                                template_location="remote",
                                                                                include_ttl_content_within_html=False)

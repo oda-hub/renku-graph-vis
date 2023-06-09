@@ -228,7 +228,7 @@ def build_graph_html(revision, paths,
     return net.html, graph_str
 
 
-def inspect_oda_graph_inputs(revision, paths, input_notebook: str = None):
+def inspect_entity_inputs(revision, paths, input_notebook: str = None):
     if paths is None:
         paths = project_context.path
 

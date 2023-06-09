@@ -189,7 +189,7 @@ def inspect(revision, paths, input_notebook):
     if paths is not None and isinstance(paths, click.Path):
         path = str(path)
 
-    graph_utils.inspect_oda_graph_inputs(revision, path, input_notebook)
+    graph_utils.inspect_entity_inputs(revision, path, input_notebook)
 
     return ""
 
