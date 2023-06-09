@@ -582,19 +582,6 @@ def build_query_where(input_notebook: str = None, graph_nodes_subset_config = No
     {
     """
 
-    # query_where += """
-    #             OPTIONAL { ?actionParam <https://swissdatasciencecenter.github.io/renku-ontology#position> ?actionPosition } .
-    #         }
-    #         {
-    #             ?activity a ?activityType ;
-    #                 <https://swissdatasciencecenter.github.io/renku-ontology#parameter> ?parameter_value ;
-    #                 <http://www.w3.org/ns/prov#startedAtTime> ?activityTime ;
-    #                 <http://www.w3.org/ns/prov#qualifiedAssociation>/<http://www.w3.org/ns/prov#hadPlan>/<https://swissdatasciencecenter.github.io/renku-ontology#command> ?actionCommand ;
-    #                 <http://www.w3.org/ns/prov#qualifiedUsage>/<http://www.w3.org/ns/prov#entity> ?entityInput .
-    #
-    #         """
-    #                 # <http://www.w3.org/ns/prov#qualifiedAssociation>/<http://www.w3.org/ns/prov#hadPlan> ?action ;
-
     if graph_nodes_subset_config is not None:
         for graph_nodes_subset_config_obj_key in graph_nodes_subset_config:
             graph_nodes_subset_config_obj = graph_nodes_subset_config[graph_nodes_subset_config_obj_key]
@@ -606,6 +593,7 @@ def build_query_where(input_notebook: str = None, graph_nodes_subset_config = No
             
     }
     """
+    # FIXME at the moment not working for the display command
     # {
     #     SELECT ?activity (GROUP_CONCAT(?entityArgumentPrefixedDefaultValue; separator=" ") AS ?entityArgument)
     #     WHERE
