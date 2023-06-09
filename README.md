@@ -98,6 +98,9 @@ two json files have been loaded, and the related checkbox will enable/disable th
 The functionalities for the graph drawing and its behavior are developed in javascript and are avaialble
 at the following [repository](https://github.com/oda-hub/renku-aqs-graph-library/).
 
+```bash
+$ renku graphvis inspect
+ ```
 
 # Installation of the plugin
 
