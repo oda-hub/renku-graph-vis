@@ -135,7 +135,7 @@ def pre_run(tool):
     sitecustomize_path = os.path.join(sitecustomize_dir, "sitecustomize.py")
 
     print(f"\033[34msitecustomize.py as {sitecustomize_path}\033[0m")
-
+    # TODO this part configurable?
     open(sitecustomize_path, "w").write("""
 print(f"\033[31menabling hooks for astroquery\033[0m")  
 
