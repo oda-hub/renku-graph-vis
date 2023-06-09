@@ -11,6 +11,9 @@ In particular, two commands are provided:
 
 ### `display` command
 <details>
+
+<summary>CLI command</summary>summary>
+
 CLI command to output a graphical representation of the graph over a png image.
 
 In particular, the following information are elaborated:
