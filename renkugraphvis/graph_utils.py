@@ -39,7 +39,7 @@ __conf_dir__ = os.path.join(os.path.dirname(__file__), 'configs_dir')
 graph_configuration = yaml.load(open(os.path.join(__this_dir__, "graph_config.yaml")), Loader=yaml.SafeLoader)
 
 
-def _graphvis_graph(revision=None, paths=None):
+def _graphvis_graph():
     G = rdflib.Graph()
     metadata_path = pathlib.Path(os.path.join(project_context.metadata_path, ENTITY_METADATA_GRAPHVIS_DIR))
     if metadata_path.exists():
@@ -91,10 +91,13 @@ def extract_graph(revision, paths, graph_nodes_subset_config=None):
     if paths is None:
         paths = project_context.path
 
+    # renku graph, from .renku folder
     renku_graph = _renku_graph(revision, paths)
 
-    graphvis_graph = _graphvis_graph(revision, paths)
+    # graphvis graph, from .graphvis folder
+    graphvis_graph = _graphvis_graph()
 
+    # ontologies graph, from nodes subset config file
     ontologies_graph = _nodes_subset_ontologies_graph(graph_nodes_subset_config=graph_nodes_subset_config)
 
     # not the recommended approach but works in our case https://rdflib.readthedocs.io/en/stable/merging.html
