@@ -120,7 +120,7 @@ def _nodes_subset_ontologies_graph(graph_nodes_subset_config=None):
                 G.parse(data)
             elif 'ontology_path' in graph_nodes_subset_config_obj:
                 if os.path.exists(graph_nodes_subset_config_obj['ontology_path']):
-                    with open(subset_obj_value) as oo_fn:
+                    with open(graph_nodes_subset_config_obj['ontology_path']) as oo_fn:
                         G.parse(oo_fn)
                 else:
                     print(f"\033[31m{graph_nodes_subset_config_obj['ontology_path']} not found\033[0m")
