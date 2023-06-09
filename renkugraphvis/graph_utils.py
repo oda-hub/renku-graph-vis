@@ -164,6 +164,9 @@ def build_graph_html(revision, paths,
 
         graph_config_names_list.append(config_file_fn)
     # for compatibility with Javascript
+    print('\n\n\n')
+    print(json.dumps(nodes_graph_config_obj, indent=4, sort_keys=True))
+    print('\n\n\n')
     nodes_graph_config_obj_str = json.dumps(nodes_graph_config_obj).replace("\\\"", '\\\\"')
     edges_graph_config_obj_str = json.dumps(edges_graph_config_obj).replace("\\\"", '\\\\"')
 
