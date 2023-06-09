@@ -172,7 +172,7 @@ def build_graph_html(revision, paths,
         with open(config_file_fn) as graph_reduction_config_fn_f:
             if graph_reduction_config_obj is None:
                 graph_reduction_config_obj = {}
-            graph_reduction_config_obj = json.load(graph_reduction_config_fn_f)
+            graph_reduction_config_obj.update(json.load(graph_reduction_config_fn_f))
 
     # for compatibility with Javascript
     graph_reductions_obj_str = json.dumps(graph_reduction_config_obj)
