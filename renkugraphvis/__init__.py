@@ -116,7 +116,6 @@ class HTTPGraphHandler(SimpleHTTPRequestHandler):
             super().do_GET()
 
 
-
 def _start_graph_http_server(*args):
     logging.info(args)
 
@@ -141,6 +140,7 @@ def _start_graph_http_server(*args):
 
     server.server_close()
     logging.info("Graph server stopped.")
+
 
 def setup_graph_visualizer():
 
