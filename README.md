@@ -65,7 +65,7 @@ The interface provides the user with a number of adjustable options:
 <!-- TODO to improve hierarchical layout -->
 <details>
 <summary>Change graph layout</summary>
-* **Change graph layout**: Two possible layouts are at the moment supported
+  **Change graph layout**: Two possible layouts are at the moment supported
   * _random_: where nodes and edges are displayed in a random fashion over the dedicated frame 
   (this layout is used in the above picture)
   * _hierarchical_: where a hierarchical visualization is applied to the nodes and the edges, an example of 
@@ -78,12 +78,12 @@ The interface provides the user with a number of adjustable options:
 * **Enable/disable selection of subsets of nodes**: filtering of certain subset of nodes (eg astroquery-related nodes).
 This is configurable via a dedicated json file.
 * **Apply reductions on the graph**: allows to enable the display of certain nodes with the relative child ones 
-absorbed within, and viceversa (eg in the example images, the `Plan` node has a number of child nodes, those
-can be visualized inside the `Plan`, left image, as well as regular ones, right image) 
+absorbed within, and viceversa (eg in the example images, the `Activity` node has a number of child nodes, those
+can be visualized inside the `Activity`, left image, as well as regular separate ones, right image) 
 This is configurable via a dedicated json file.
 <div align="center">
-<img align="center" width="37%" src="readme_imgs/reduced_plan.png">
-<img align="center" width="38%" src="readme_imgs/expanded_plan.png">
+<img align="center" width="37%" src="readme_imgs/reduced_activity.png">
+<img align="center" width="38%" src="readme_imgs/expanded_activity.png">
 </div>
 <br clear="left"/>
 
