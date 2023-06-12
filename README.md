@@ -12,7 +12,7 @@ In particular, two commands are provided:
 ### `display` command
 <details>
 
-<summary>CLI command</summary>summary>
+<summary>CLI command</summary>
 
 CLI command to output a graphical representation of the graph over a png image.
 
@@ -98,6 +98,26 @@ two json files have been loaded, and the related checkbox will enable/disable th
 
 The functionalities for the graph drawing and the user-interactions with it are developed in a dedicated javascript library.
 This is available at the following [repository](https://github.com/oda-hub/renku-aqs-graph-library/).
+
+### Graph visualization within a renkulab session
+
+The graph can be displayed during an interactive renkulab session. This is provided by including the `renku_graph_vis` 
+within the requirements of your project. A dedicated button will then be displayed in the renkulab launcher when a 
+new session is started.  
+
+<div align="center">
+<img width="75%" src="readme_imgs/renkulab_overview_example_1.png">
+</div>
+
+The graph is dynamically updated while working in the session. In the example below, the execution of a notebook
+is started, and when this completes the graph is automatically re-loaded, including the execution that had just
+completed.
+
+<div align="center">
+<img width="75%" src="readme_imgs/renkulab_execution_example_1.gif">
+</div>
+
+*** 
 
 ```bash
 $ renku graphvis inspect
