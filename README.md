@@ -75,7 +75,7 @@ The interface provides the user with a number of adjustable options:
 * **Enable/disable selection of subsets of nodes**: filtering of certain subset of nodes (eg astroquery-related nodes).
 This is configurable via a dedicated json file.
 <div align="center">
-<img width="50%" src="readme_imgs/enable_disable_set_nodes-graph.png">
+<img src="readme_imgs/enable_disable_set_nodes-graph.png">
 </div>
 
 * **Apply reductions on the graph**: allows to enable the display of certain nodes with the relative child ones 
@@ -92,7 +92,7 @@ This is configurable via a dedicated json file.
 the graph (nodes and edges), where each configuration is loaded from a dedicated json file. In the image displayed below,
 two json files have been loaded, and the related checkbox will enable/disable that configuration.
 <div align="center">
-<img width="50%" src="readme_imgs/enable_disable_configuration-graph.png">
+<img width="30%" src="readme_imgs/enable_disable_configuration-graph.png">
 </div>
 
 
