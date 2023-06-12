@@ -56,24 +56,21 @@ clicked node, can be re-absorbed by clicking again on the very same node. This i
 in the animation below.
 
 <div align="center">
-<img align="center" width="65%" src="readme_imgs/animation_expansion_retraction.gif">
+<img align="center" width="65%" src="readme_imgs/animation_expansion_retraction_2.gif">
 </div>
 <br clear="left"/>
 
 The interface provides the user with a number of adjustable options:
 
 <!-- TODO to improve hierarchical layout -->
-<details>
-<summary>Change graph layout</summary>
-  **Change graph layout**: Two possible layouts are at the moment supported
+* **Change graph layout**: Two possible layouts are at the moment supported
   * _random_: where nodes and edges are displayed in a random fashion over the dedicated frame 
   (this layout is used in the above picture)
   * _hierarchical_: where a hierarchical visualization is applied to the nodes and the edges, an example of 
   this is displayed in the image below
   <div align="center">
-  <img src="readme_imgs/hierarchical_view.png" width="65%" />
+  <img src="readme_imgs/hierarchical_view_2.png" width="65%" />
   </div>
-</details>
 
 * **Enable/disable selection of subsets of nodes**: filtering of certain subset of nodes (eg astroquery-related nodes).
 This is configurable via a dedicated json file.
