@@ -118,11 +118,6 @@ completed.
 </div>
 
 *** 
-
-```bash
-$ renku graphvis inspect
- ```
-
 # Installation of the plugin
 
 Currently, the plugin is developed using the version `2.4.1` of [renku-python](https://github.com/SwissDataScienceCenter/renku-python). Please make sure such version is installed by running:
