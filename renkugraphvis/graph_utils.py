@@ -94,7 +94,7 @@ def extract_graph(revision, paths, graph_nodes_subset_config=None):
     # renku graph, from .renku folder
     renku_graph = _renku_graph(revision, paths)
 
-    # graphvis graph, from .graphvis folder
+    # graphvis graph, from graphvis folder
     graphvis_graph = _graphvis_graph()
 
     # ontologies graph, from nodes subset config file

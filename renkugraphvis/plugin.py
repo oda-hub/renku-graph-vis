@@ -95,7 +95,7 @@ def activity_annotations(activity):
                     annotations.append(
                         Annotation(id=annotation_id, source="AQS plugin", body=nb2annotation)
                     )
-
+    # TODO fix the path accordingly
     if os.path.exists(graphvis.graph_vis_annotation_path):
         for p in graphvis.graph_vis_annotation_path.iterdir():
             if p.match("*json"):
