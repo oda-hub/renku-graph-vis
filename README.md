@@ -74,9 +74,13 @@ The interface provides the user with a number of adjustable options:
 
 * **Enable/disable selection of subsets of nodes**: filtering of certain subset of nodes (eg astroquery-related nodes).
 This is configurable via a dedicated json file.
+<div align="center">
+<img width="70%" src="readme_imgs/enable_disable_set_nodes-graph.png">
+</div>
+
 * **Apply reductions on the graph**: allows to enable the display of certain nodes with the relative child ones 
 absorbed within, and viceversa (eg in the example images, the `Activity` node has a number of child nodes, those
-can be visualized inside the `Activity`, left image, as well as regular separate ones, right image) 
+can be visualized inside the `Activity`, left image, as well as regular separate ones, right image).
 This is configurable via a dedicated json file.
 <div align="center">
 <img align="center" width="37%" src="readme_imgs/reduced_activity.png">
@@ -92,8 +96,8 @@ two json files have been loaded, and the related checkbox will enable/disable th
 </div>
 
 
-The functionalities for the graph drawing and its behavior are developed in javascript and are avaialble
-at the following [repository](https://github.com/oda-hub/renku-aqs-graph-library/).
+The functionalities for the graph drawing and the user-interactions with it are developed in a dedicated javascript library.
+This is available at the following [repository](https://github.com/oda-hub/renku-aqs-graph-library/).
 
 ```bash
 $ renku graphvis inspect
