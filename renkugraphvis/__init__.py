@@ -24,6 +24,7 @@ import pyvis
 import shutil
 import os
 import json
+import time
 
 import renkugraphvis.graph_utils as graph_utils
 
@@ -60,26 +61,32 @@ class HTTPGraphHandler(SimpleHTTPRequestHandler):
         mount_path_env = os.environ.get('MOUNT_PATH', None)
         logging.info(f'self.path = {self.path}, os.cwd = {os.getcwd()}, mount_path = {mount_path_env}')
         if self.path == '/':
-
-            try:
-                self.send_response(200)
-                self.send_header("Content-type", "text/html")
-                self.end_headers()
-                # TODO probably want to remove the inspection, as it is not part of the operation for building the graph rather should be in the dedicated plugin
-                # graph_utils.inspect_entity_inputs(None, paths=os.getcwd())
-                graph_html_content, ttl_content = graph_utils.build_graph_html(None, paths=os.getcwd(),
-                                                                               template_location="remote",
-                                                                               include_ttl_content_within_html=False)
-                self.wfile.write(graph_html_content.encode())
-            except Exception as e:
-                output_html = f'''
-                <html><head></head><body><h1>Error while generating the output graph:</h1>
-                <p>{e}</p>
-                </body>
-                </html>
-                '''
-                self.wfile.write(output_html.encode())
-                logging.warning(f"Error while generating the output graph: {e}")
+            repeat_exception = True
+            exception_graph_build = None
+            while repeat_exception:
+                try:
+                    self.send_response(200)
+                    self.send_header("Content-type", "text/html")
+                    self.end_headers()
+                    # TODO probably want to remove the inspection, as it is not part of the operation for building the graph rather should be in the dedicated plugin
+                    # graph_utils.inspect_entity_inputs(None, paths=os.getcwd())
+                    graph_html_content, ttl_content = graph_utils.build_graph_html(None, paths=os.getcwd(),
+                                                                                   template_location="remote",
+                                                                                   include_ttl_content_within_html=False)
+                    self.wfile.write(graph_html_content.encode())
+                    repeat_exception = False
+                except Exception as e:
+                    output_html = f'''
+                    <html><head></head><body><h1>Error while generating the output graph:</h1>
+                    <p>{e}</p>
+                    </body>
+                    </html>
+                    '''
+                    if exception_graph_build is None or exception_graph_build != str(e):
+                        exception_graph_build = str(e)
+                        self.wfile.write(output_html.encode())
+                    time.sleep(2)
+                    logging.warning(f"Error while generating the output graph: {e}")
 
         if self.path == '/graph_version':
             self.send_response(200)
