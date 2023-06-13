@@ -56,18 +56,18 @@ class HTTPGraphHandler(SimpleHTTPRequestHandler):
         super().__init__(request, client_address, *args, **kwargs)
         self.logger = logging.getLogger(self.__class__.__name__)
 
-
     def do_GET(self) -> None:
         mount_path_env = os.environ.get('MOUNT_PATH', None)
         logging.info(f'self.path = {self.path}, os.cwd = {os.getcwd()}, mount_path = {mount_path_env}')
         if self.path == '/':
             repeat_exception = True
             exception_graph_build = None
+            self.send_response(200)
+            self.send_header("Content-type", "text/html")
+            self.send_header("User-Information", "Fetching module X. Please wait")
+            self.end_headers()
             while repeat_exception:
                 try:
-                    self.send_response(200)
-                    self.send_header("Content-type", "text/html")
-                    self.end_headers()
                     # TODO probably want to remove the inspection, as it is not part of the operation for building the graph rather should be in the dedicated plugin
                     # graph_utils.inspect_entity_inputs(None, paths=os.getcwd())
                     graph_html_content, ttl_content = graph_utils.build_graph_html(None, paths=os.getcwd(),
@@ -82,9 +82,10 @@ class HTTPGraphHandler(SimpleHTTPRequestHandler):
                     </body>
                     </html>
                     '''
-                    if exception_graph_build is None or exception_graph_build != str(e):
-                        exception_graph_build = str(e)
+                    if exception_graph_build is None or exception_graph_build != output_html:
+                        exception_graph_build = output_html
                         self.wfile.write(output_html.encode())
+                        self.wfile.flush()
                     time.sleep(2)
                     logging.warning(f"Error while generating the output graph: {e}")
 
