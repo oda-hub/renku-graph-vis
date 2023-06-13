@@ -384,8 +384,6 @@ def build_graph_image(revision, paths, filename, input_notebook):
     G.bind("odas", "https://odahub.io/ontology#")  # the same
     G.bind("local-renku", f"file://{renku_path}/")
 
-    process_oda_info(G)
-
     type_label_values_dict = {}
     analyze_types(G, type_label_values_dict)
 
@@ -510,14 +508,9 @@ def customize_node(node: typing.Union[pydotplus.Node],
                 node.set_style(node_configuration['style'])
                 node.set_shape(node_configuration['shape'])
                 node.set_color(node_configuration['color'])
-                # remove top row for some cells were this is not wanted
-                display_type_title = node_configuration.get('display_type_title', None)
-                if display_type_title is not None:
-                    if display_type_title == 'literals':
-                        table_html.remove(tr_list[0])
                 # remove not needed long id information
                 table_html.remove(tr_list[1])
-                # remove not-needed information in the output tree nodes (eg defaultValue text, position value)
+                # remove not-needed information in the output tree nodes
                 for tr in tr_list:
                     list_td = tr.findall('td')
                     if len(list_td) == 2:
