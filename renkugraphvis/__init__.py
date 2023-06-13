@@ -24,7 +24,7 @@ import pyvis
 import shutil
 import os
 import json
-import threading
+import bs4
 
 import renkugraphvis.graph_utils as graph_utils
 
@@ -71,22 +71,26 @@ class HTTPGraphHandler(SimpleHTTPRequestHandler):
                                                                                include_ttl_content_within_html=False)
                 self.wfile.write(graph_html_content.encode())
             except Exception as e:
-                output_html = f'''
-                <html>
-                <head>
-                <script>
+                javascript_page_reload_snippet = '''
                     window.addEventListener('load', function() {{
                         setInterval(function() {{
                             window.location.reload();
                         }}, 5000);
                     }});
-                </script>
+                '''
+                output_html = f'''
+                <html>
+                <head>
                 </head><body><h1>Error while generating the output graph:</h1>
                 <p>{e}</p>
                 </body>
                 </html>
                 '''
-                self.wfile.write(output_html.encode())
+                soup = bs4.BeautifulSoup(output_html, "html.parser")
+                javascript_tag = soup.new_tag("script", type="application/javascript")
+                javascript_tag.append(javascript_page_reload_snippet)
+                soup.head.append(javascript_tag)
+                self.wfile.write(soup.prettify().encode())
                 logging.warning(f"Error while generating the output graph: {e}")
 
         if self.path == '/graph_version':
