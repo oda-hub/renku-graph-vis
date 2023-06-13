@@ -386,11 +386,11 @@ def build_graph_image(revision, paths, filename, input_notebook):
 
     type_label_values_dict = {}
     analyze_types(G, type_label_values_dict)
-
+    print(type_label_values_dict)
     stream = io.StringIO()
     rdf2dot.rdf2dot(G, stream, opts={display})
     pydot_graph = pydotplus.graph_from_dot_data(stream.getvalue())
-
+    # print(type_label_values_dict)
     for node in pydot_graph.get_nodes():
         customize_node(node,
                        nodes_graph_config_obj,
@@ -479,6 +479,7 @@ def customize_node(node: typing.Union[pydotplus.Node],
                    type_label_values_dict=None
                    ):
     id_node = None
+
     if 'label' in node.obj_dict['attributes']:
         # parse the whole node table into a lxml object
         table_html = etree.fromstring(node.get_label()[1:-1])
@@ -489,15 +490,18 @@ def customize_node(node: typing.Union[pydotplus.Node],
         if td_list_first_row is not None:
             td_list_first_row[0].attrib.pop('bgcolor')
             b_element_title = td_list_first_row[0].findall('B')
-            if b_element_title is not None and b_element_title[0].text in type_label_values_dict:
+            node_configuration = graph_configuration['Default']
+            if b_element_title is not None:
                 id_node = b_element_title[0].text
             if id_node is not None:
-                # apply styles (shapes, colors etc etc)
-                node_configuration = graph_configuration['Default']
+                key_configuration = None
                 for key in graph_configuration:
-                    if type_label_values_dict[id_node] in key.split(","):
+                    if id_node in type_label_values_dict and type_label_values_dict[id_node] in key.split(","):
+                        key_configuration = key
                         node_configuration = graph_configuration[key]
+                        b_element_title[0].text = type_label_values_dict[id_node]
                         break
+                # apply styles (shapes, colors etc etc)
                 table_html.attrib['cellborder'] = str(node_configuration.get('cellborder',
                                                                              graph_configuration['Default']['cellborder'])
                                                       )
@@ -515,8 +519,6 @@ def customize_node(node: typing.Union[pydotplus.Node],
                     list_td = tr.findall('td')
                     if len(list_td) == 2:
                         list_left_column_element = list_td[0].text.split(':')
-                        # remove left side text (eg defaultValue)
-                        tr.remove(list_td[0])
                         if 'align' in list_td[1].keys():
                             list_td[1].attrib['align'] = 'center'
                             list_td[1].attrib['colspan'] = '2'
@@ -646,6 +648,8 @@ def analyze_types(g, type_label_values_dict):
     for s, o in types_list:
         o_qname = g.compute_qname(o)
         s_label = label(s, g)
+        if isinstance(s_label, rdflib.Literal):
+            s_label = s_label.value
         type_label_values_dict[s_label] = o_qname[2]
     g.remove((None, rdflib.RDF.type, None))
 
