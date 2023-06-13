@@ -527,13 +527,6 @@ def customize_node(node: typing.Union[pydotplus.Node],
                         if 'align' in list_td[1].keys():
                             list_td[1].attrib['align'] = 'center'
                             list_td[1].attrib['colspan'] = '2'
-                        # special case default_value table_row
-                        if 'defaultValue' in list_left_column_element and \
-                                type_label_values_dict[id_node] == 'CommandParameter':
-                            list_args_commandParameter = list_td[1].text[1:-1].split(' ')
-                            if b_element_title is not None and b_element_title[0].text in type_label_values_dict:
-                                b_element_title[0].text = list_args_commandParameter[0]
-                                list_td[1].text = '"' + ' '.join(list_args_commandParameter[1:]) + '"'
                         if 'startedAtTime' in list_left_column_element:
                             # TODO to improve and understand how to parse xsd:dateTime time
                             parsed_startedAt_time = parser.parse(list_td[1].text.replace('^^xsd:dateTime', '')[1:-1])
