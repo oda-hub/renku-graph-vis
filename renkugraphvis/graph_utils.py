@@ -494,12 +494,11 @@ def customize_node(node: typing.Union[pydotplus.Node],
             if b_element_title is not None:
                 id_node = b_element_title[0].text
             if id_node is not None:
-                key_configuration = None
                 for key in graph_configuration:
                     if id_node in type_label_values_dict and type_label_values_dict[id_node] in key.split(","):
-                        key_configuration = key
                         node_configuration = graph_configuration[key]
                         b_element_title[0].text = type_label_values_dict[id_node]
+                        b_element_title[0].attrib['align'] = 'center'
                         break
                 # apply styles (shapes, colors etc etc)
                 table_html.attrib['cellborder'] = str(node_configuration.get('cellborder',
@@ -521,20 +520,16 @@ def customize_node(node: typing.Union[pydotplus.Node],
                         list_left_column_element = list_td[0].text.split(':')
                         if 'align' in list_td[1].keys():
                             list_td[1].attrib['align'] = 'center'
-                            list_td[1].attrib['colspan'] = '2'
+                            list_td[1].attrib['colspan'] = '1'
                         if 'startedAtTime' in list_left_column_element:
-                            # TODO to improve and understand how to parse xsd:dateTime time
                             parsed_startedAt_time = parser.parse(list_td[1].text.replace('^^xsd:dateTime', '')[1:-1])
                             # create an additional row to attach at the bottom, so that time is always at the bottom
-                            bottom_table_row = etree.Element('tr')
                             time_td = etree.Element('td')
                             time_td.attrib['align'] = 'center'
                             time_td.attrib['colspan'] = '2'
                             time_td.text = parsed_startedAt_time.strftime('%Y-%m-%d %H:%M:%S')
-                            bottom_table_row.append(time_td)
                             tr.remove(list_td[1])
-                            table_html.remove(tr)
-                            table_html.append(bottom_table_row)
+                            tr.append(time_td)
 
                         # remove trailing and leading double quotes
                         list_td[1].text = list_td[1].text[1:-1]
