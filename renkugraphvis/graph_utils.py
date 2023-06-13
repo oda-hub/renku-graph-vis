@@ -324,15 +324,38 @@ def build_graph_image(revision, paths, filename, input_notebook):
     if paths is None:
         paths = project_context.path
 
+    default_graph_graphical_config_patter_fn = '*_graph_graphical_config.json'
     graph_nodes_subset_config_patter_fn = '*_graph_nodes_subset_config.json'
+
+    graphical_config_list_files = glob.glob(os.path.join(__conf_dir__, default_graph_graphical_config_patter_fn))
     nodes_subset_config_list_files = glob.glob(os.path.join(__conf_dir__, graph_nodes_subset_config_patter_fn))
+
+    nodes_graph_config_obj = {}
+    edges_graph_config_obj = {}
+
+    for config_file_fn in graphical_config_list_files:
+        config_file_path = pathlib.Path(config_file_fn)
+        config_file_name = config_file_path.name
+        with open(config_file_fn) as graph_config_fn_f:
+            graph_config_loaded = json.load(graph_config_fn_f)
+            nodes_graph_config_obj_loaded = graph_config_loaded.get('Nodes', {})
+            edges_graph_config_obj_loaded = graph_config_loaded.get('Edges', {})
+
+        if nodes_graph_config_obj_loaded is not None:
+            for config_type in nodes_graph_config_obj_loaded:
+                nodes_graph_config_obj_loaded[config_type]['config_file'] = config_file_name
+            nodes_graph_config_obj.update(nodes_graph_config_obj_loaded)
+        if edges_graph_config_obj_loaded is not None:
+            for config_type in edges_graph_config_obj_loaded:
+                edges_graph_config_obj_loaded[config_type]['config_file'] = config_file_name
+            edges_graph_config_obj.update(edges_graph_config_obj_loaded)
 
     graph_nodes_subset_config_obj = None
     for config_file_fn in nodes_subset_config_list_files:
         with open(config_file_fn) as graph_nodes_subset_config_fn_f:
             if graph_nodes_subset_config_obj is None:
                 graph_nodes_subset_config_obj = {}
-            graph_nodes_subset_config_obj = json.load(graph_nodes_subset_config_fn_f)
+            graph_nodes_subset_config_obj.update(json.load(graph_nodes_subset_config_fn_f))
 
     graph = extract_graph(revision, paths, graph_nodes_subset_config=graph_nodes_subset_config_obj)
     renku_path = paths
@@ -553,6 +576,7 @@ def customize_node(node: typing.Union[pydotplus.Node],
             # serialize back the table html
             node.obj_dict['attributes']['label'] = '< ' + etree.tostring(table_html, encoding='unicode') + ' >'
 
+
 def build_query_where(input_notebook: str = None, graph_nodes_subset_config = None):
     query_where = """
     WHERE {
@@ -570,7 +594,7 @@ def build_query_where(input_notebook: str = None, graph_nodes_subset_config = No
             <http://www.w3.org/ns/prov#startedAtTime> ?activityTime ;
             <http://www.w3.org/ns/prov#qualifiedAssociation>/<http://www.w3.org/ns/prov#hadPlan>/<https://swissdatasciencecenter.github.io/renku-ontology#command> ?activityCommand ;
             <http://www.w3.org/ns/prov#qualifiedUsage>/<http://www.w3.org/ns/prov#entity> ?entityInput .
-            
+     
     """
 
     if input_notebook is not None:
@@ -592,37 +616,10 @@ def build_query_where(input_notebook: str = None, graph_nodes_subset_config = No
                 query_where += graph_nodes_subset_config_obj['query_where']
 
     query_where += """
-    }
-            
+    }     
     }
     """
-    # FIXME at the moment not working for the display command
-    # {
-    #     SELECT ?activity (GROUP_CONCAT(?entityArgumentPrefixedDefaultValue; separator=" ") AS ?entityArgument)
-    #     WHERE
-    #     {
-    #         {
-    #             SELECT ?activity (CONCAT(COALESCE(?entityArgumentPrefix, "")," ",?entityArgumentDefaultValue) AS ?entityArgumentPrefixedDefaultValue) ?entityArgumentDefaultValue
-    #             WHERE {
-    #                 OPTIONAL {
-    #                     ?activity <http://www.w3.org/ns/prov#qualifiedAssociation>/
-    #                             <http://www.w3.org/ns/prov#hadPlan>/
-    #                             <https://swissdatasciencecenter.github.io/renku-ontology#hasArguments> ?argument .
-    #
-    #                     ?argument <https://swissdatasciencecenter.github.io/renku-ontology#position> ?entityArgumentPosition ;
-    #                             <http://schema.org/defaultValue> ?entityArgumentDefaultValue .
-    #
-    #                     OPTIONAL {
-    #                         ?argument <https://swissdatasciencecenter.github.io/renku-ontology#prefix> ?entityArgumentPrefix .
-    #                     }
-    #                 }
-    #
-    #             }
-    #             ORDER BY ASC(?entityArgumentPosition)
-    #         }
-    #     }
-    #     GROUP BY ?activity
-    # }
+    print(query_where)
 
     return query_where
 
@@ -640,10 +637,11 @@ def build_query_construct(graph_nodes_subset_config=None):
         
         ?activity a ?activityType ;
             <http://www.w3.org/ns/prov#startedAtTime> ?activityTime ;
-            <https://swissdatasciencecenter.github.io/renku-ontology#command> ?activityCommand ;
             <https://swissdatasciencecenter.github.io/renku-ontology#hasInputs> ?entityInput ;
+            <https://swissdatasciencecenter.github.io/renku-ontology#command> ?activityCommand ;
             <https://swissdatasciencecenter.github.io/renku-ontology#hasOutputs> ?entityOutput ;
             <https://swissdatasciencecenter.github.io/renku-ontology#argument> ?entityArgument .
+
     """
 
     query_construct_from_config = ""
@@ -658,8 +656,6 @@ def build_query_construct(graph_nodes_subset_config=None):
         {query_construct_main}
         {query_construct_from_config}
     }}"""
-
-    print(query_construct)
 
     return query_construct
 
