@@ -384,18 +384,10 @@ def build_graph_image(revision, paths, filename, input_notebook):
     G.bind("odas", "https://odahub.io/ontology#")  # the same
     G.bind("local-renku", f"file://{renku_path}/")
 
-    # extract_activity_start_time(G)
-
     process_oda_info(G)
 
-    action_node_dict = {}
     type_label_values_dict = {}
-    args_default_value_dict = {}
-
-    analyze_arguments(G, action_node_dict, args_default_value_dict)
     analyze_types(G, type_label_values_dict)
-
-    clean_graph(G)
 
     stream = io.StringIO()
     rdf2dot.rdf2dot(G, stream, opts={display})
@@ -620,10 +612,9 @@ def build_query_where(input_notebook: str = None, graph_nodes_subset_config = No
                 query_where += graph_nodes_subset_config_obj['query_where']
 
     query_where += """
-    }     
+        }
     }
     """
-    print(query_where)
 
     return query_where
 
@@ -664,7 +655,7 @@ def build_query_construct(graph_nodes_subset_config=None):
     return query_construct
 
 
-def clean_graph(g):
+# def clean_graph(g):
     # remove not-needed predicates
     # g.remove((None, rdflib.URIRef('http://odahub.io/ontology#isUsing'), None))
     # g.remove((None, rdflib.URIRef('http://odahub.io/ontology#isRequestingAstroRegion'), None))
@@ -678,7 +669,7 @@ def clean_graph(g):
     # g.remove((None, rdflib.URIRef('https://swissdatasciencecenter.github.io/renku-ontology#hasArguments'), None))
     # g.remove((None, rdflib.URIRef('https://swissdatasciencecenter.github.io/renku-ontology#hasInputs'), None))
     # remove all the type triples
-    g.remove((None, rdflib.RDF.type, None))
+    # g.remove((None, rdflib.RDF.type, None))
 
 
 def analyze_types(g, type_label_values_dict):
@@ -688,6 +679,7 @@ def analyze_types(g, type_label_values_dict):
         o_qname = g.compute_qname(o)
         s_label = label(s, g)
         type_label_values_dict[s_label] = o_qname[2]
+    g.remove((None, rdflib.RDF.type, None))
 
 
 def analyze_arguments(g, action_node_dict, args_default_value_dict):
