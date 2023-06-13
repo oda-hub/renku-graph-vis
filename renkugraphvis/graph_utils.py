@@ -36,9 +36,6 @@ __this_dir__ = os.path.join(os.path.abspath(os.path.dirname(__file__)))
 __conf_dir__ = os.path.join(os.path.dirname(__file__), 'configs_dir')
 
 
-graph_configuration = yaml.load(open(os.path.join(__this_dir__, "graph_config.yaml")), Loader=yaml.SafeLoader)
-
-
 def _graphvis_graph():
     G = rdflib.Graph()
     metadata_path = pathlib.Path(os.path.join(project_context.metadata_path, ENTITY_METADATA_GRAPHVIS_DIR))
@@ -321,6 +318,16 @@ def inspect_entity_inputs(revision, paths, input_notebook: str = None):
 
 def build_graph_image(revision, paths, filename, input_notebook):
 
+    graph_node_config_obj_default = {
+        "shape": "box",
+        "color": "#FFFFFF",
+        "style": "filled",
+        "border": 0,
+        "cellborder": 0,
+        "value": 20,
+        "margin": 10
+    }
+
     if paths is None:
         paths = project_context.path
 
@@ -350,6 +357,8 @@ def build_graph_image(revision, paths, filename, input_notebook):
                 edges_graph_config_obj_loaded[config_type]['config_file'] = config_file_name
             edges_graph_config_obj.update(edges_graph_config_obj_loaded)
 
+    nodes_graph_config_obj['Default'] = graph_node_config_obj_default
+
     graph_nodes_subset_config_obj = None
     for config_file_fn in nodes_subset_config_list_files:
         with open(config_file_fn) as graph_nodes_subset_config_fn_f:
@@ -375,21 +384,18 @@ def build_graph_image(revision, paths, filename, input_notebook):
     G.bind("odas", "https://odahub.io/ontology#")  # the same
     G.bind("local-renku", f"file://{renku_path}/")
 
-    extract_activity_start_time(G)
+    # extract_activity_start_time(G)
 
     process_oda_info(G)
 
     action_node_dict = {}
     type_label_values_dict = {}
     args_default_value_dict = {}
-    out_default_value_dict = {}
 
-    analyze_inputs(G)
     analyze_arguments(G, action_node_dict, args_default_value_dict)
-    analyze_outputs(G, out_default_value_dict)
     analyze_types(G, type_label_values_dict)
 
-    # clean_graph(G)
+    clean_graph(G)
 
     stream = io.StringIO()
     rdf2dot.rdf2dot(G, stream, opts={display})
@@ -397,7 +403,7 @@ def build_graph_image(revision, paths, filename, input_notebook):
 
     for node in pydot_graph.get_nodes():
         customize_node(node,
-                       graph_configuration,
+                       nodes_graph_config_obj,
                        type_label_values_dict=type_label_values_dict
                        )
 
@@ -409,7 +415,6 @@ def build_graph_image(revision, paths, filename, input_notebook):
     pydot_graph.write_png(filename)
 
     return filename
-
 
 
 def customize_edge(edge: typing.Union[pydotplus.Edge]):
@@ -517,11 +522,10 @@ def customize_node(node: typing.Union[pydotplus.Node],
                 node.set_shape(node_configuration['shape'])
                 node.set_color(node_configuration['color'])
                 # remove top row for some cells were this is not wanted
-                display_top_row = bool(node_configuration.get('display_type_title',
-                                                              graph_configuration['Default']['display_type_title'])
-                                       )
-                if not display_top_row:
-                    table_html.remove(tr_list[0])
+                display_type_title = node_configuration.get('display_type_title', None)
+                if display_type_title is not None:
+                    if display_type_title == 'literals':
+                        table_html.remove(tr_list[0])
                 # remove not needed long id information
                 table_html.remove(tr_list[1])
                 # remove not-needed information in the output tree nodes (eg defaultValue text, position value)
@@ -662,17 +666,17 @@ def build_query_construct(graph_nodes_subset_config=None):
 
 def clean_graph(g):
     # remove not-needed predicates
-    g.remove((None, rdflib.URIRef('http://odahub.io/ontology#isUsing'), None))
-    g.remove((None, rdflib.URIRef('http://odahub.io/ontology#isRequestingAstroRegion'), None))
-    g.remove((None, rdflib.URIRef('http://odahub.io/ontology#isRequestingAstroObject'), None))
-    g.remove((None, rdflib.URIRef('http://odahub.io/ontology#isRequestingAstroImage'), None))
-    g.remove((None, rdflib.URIRef('http://purl.org/dc/terms/title'), None))
-    g.remove((None, rdflib.URIRef('http://www.w3.org/ns/oa#hasTarget'), None))
-    g.remove((None, rdflib.URIRef('http://www.w3.org/ns/prov#entity'), None))
-    g.remove((None, rdflib.URIRef('http://www.w3.org/ns/prov#hadPlan'), None))
-    g.remove((None, rdflib.URIRef('https://swissdatasciencecenter.github.io/renku-ontology#position'), None))
-    g.remove((None, rdflib.URIRef('https://swissdatasciencecenter.github.io/renku-ontology#hasArguments'), None))
-    g.remove((None, rdflib.URIRef('https://swissdatasciencecenter.github.io/renku-ontology#hasInputs'), None))
+    # g.remove((None, rdflib.URIRef('http://odahub.io/ontology#isUsing'), None))
+    # g.remove((None, rdflib.URIRef('http://odahub.io/ontology#isRequestingAstroRegion'), None))
+    # g.remove((None, rdflib.URIRef('http://odahub.io/ontology#isRequestingAstroObject'), None))
+    # g.remove((None, rdflib.URIRef('http://odahub.io/ontology#isRequestingAstroImage'), None))
+    # g.remove((None, rdflib.URIRef('http://purl.org/dc/terms/title'), None))
+    # g.remove((None, rdflib.URIRef('http://www.w3.org/ns/oa#hasTarget'), None))
+    # g.remove((None, rdflib.URIRef('http://www.w3.org/ns/prov#entity'), None))
+    # g.remove((None, rdflib.URIRef('http://www.w3.org/ns/prov#hadPlan'), None))
+    # g.remove((None, rdflib.URIRef('https://swissdatasciencecenter.github.io/renku-ontology#position'), None))
+    # g.remove((None, rdflib.URIRef('https://swissdatasciencecenter.github.io/renku-ontology#hasArguments'), None))
+    # g.remove((None, rdflib.URIRef('https://swissdatasciencecenter.github.io/renku-ontology#hasInputs'), None))
     # remove all the type triples
     g.remove((None, rdflib.RDF.type, None))
 
@@ -684,46 +688,6 @@ def analyze_types(g, type_label_values_dict):
         o_qname = g.compute_qname(o)
         s_label = label(s, g)
         type_label_values_dict[s_label] = o_qname[2]
-
-
-def analyze_outputs(g, out_default_value_dict):
-    # analyze outputs
-    outputs_list = g[:rdflib.URIRef('https://swissdatasciencecenter.github.io/renku-ontology#hasOutputs')]
-    for s, o in outputs_list:
-        s_label = label(s, g)
-        if s_label not in out_default_value_dict:
-            out_default_value_dict[s_label] = []
-        output_obj_list = list(g[o:rdflib.URIRef('http://schema.org/defaultValue')])
-        if len(output_obj_list) == 1:
-            # get file extension
-            file_extension = os.path.splitext(output_obj_list[0])[1][1:]
-
-            if file_extension is not None:
-                if file_extension in ['jpeg', 'jpg', 'png', 'gif', 'bmp']:
-                    # removing old type, and assigning a new specific one
-                    g.remove((o, rdflib.RDF.type, None))
-                    g.add((o,
-                           rdflib.RDF.type,
-                           rdflib.URIRef("https://swissdatasciencecenter.github.io/renku-ontology#CommandOutputImage")))
-                if file_extension in ['fits']:
-                    # removing old type, and assigning a new specific one
-                    g.remove((o, rdflib.RDF.type, None))
-                    g.add((o,
-                           rdflib.RDF.type,
-                           rdflib.URIRef("https://swissdatasciencecenter.github.io/renku-ontology#CommandOutputFitsFile")))
-                if file_extension == 'ipynb':
-                    g.remove((o, rdflib.RDF.type, None))
-                    g.add((o,
-                           rdflib.RDF.type,
-                           rdflib.URIRef(
-                               "https://swissdatasciencecenter.github.io/renku-ontology#CommandOutputNotebook")))
-                if file_extension == 'ecsv':
-                    g.remove((o, rdflib.RDF.type, None))
-                    g.add((o,
-                           rdflib.RDF.type,
-                           rdflib.URIRef(
-                               "https://swissdatasciencecenter.github.io/renku-ontology#CommandOutputEcsvFile")))
-            out_default_value_dict[s_label].append(output_obj_list[0])
 
 
 def analyze_arguments(g, action_node_dict, args_default_value_dict):
@@ -776,12 +740,6 @@ def label(x, g):
         return g.namespace_manager.compute_qname(x)[2]
     except:
         return x
-
-
-def analyze_inputs(g):
-    # analyze inputs
-    for s, o in g[:rdflib.URIRef('https://swissdatasciencecenter.github.io/renku-ontology#hasInputs')]:
-        g.add((o, rdflib.URIRef('https://swissdatasciencecenter.github.io/renku-ontology#isInputOf'), s))
 
 
 def extract_activity_start_time(g):
