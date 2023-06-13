@@ -553,21 +553,6 @@ def customize_node(node: typing.Union[pydotplus.Node],
 
                         # remove trailing and leading double quotes
                         list_td[1].text = list_td[1].text[1:-1]
-                        # bold text in case of action
-                        if type_label_values_dict[id_node] == 'Action' and \
-                                 'command' in list_left_column_element:
-                            bold_text_element = etree.Element('B')
-                            bold_text_element.text = list_td[1].text
-                            list_td[1].append(bold_text_element)
-                            list_td[1].text = ""
-                        # italic ad bold in case of input
-                        if type_label_values_dict[id_node] == 'CommandInput':
-                            bold_text_element = etree.Element('B')
-                            italic_text_element = etree.Element('I')
-                            italic_text_element.text = list_td[1].text
-                            bold_text_element.append(italic_text_element)
-                            list_td[1].append(bold_text_element)
-                            list_td[1].text = ""
 
             # serialize back the table html
             node.obj_dict['attributes']['label'] = '< ' + etree.tostring(table_html, encoding='unicode') + ' >'
