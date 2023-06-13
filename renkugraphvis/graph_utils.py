@@ -478,7 +478,7 @@ def get_node_graphical_info(node: typing.Union[pydotplus.Node],
 
 def customize_node(node: typing.Union[pydotplus.Node],
                    graph_configuration,
-                   type_label_values_dict=None,
+                   type_label_values_dict=None
                    ):
     id_node = None
     if 'label' in node.obj_dict['attributes']:
@@ -494,15 +494,12 @@ def customize_node(node: typing.Union[pydotplus.Node],
             if b_element_title is not None and b_element_title[0].text in type_label_values_dict:
                 id_node = b_element_title[0].text
             if id_node is not None:
-                # change title of the node
-                if type_label_values_dict[b_element_title[0].text] != 'CommandParameter':
-                    b_element_title[0].text = type_label_values_dict[b_element_title[0].text]
-                if b_element_title[0].text.startswith('CommandOutput') and \
-                        b_element_title[0].text != 'CommandOutput':
-                    b_element_title[0].text = b_element_title[0].text[13:]
                 # apply styles (shapes, colors etc etc)
-                node_configuration = graph_configuration.get(type_label_values_dict[id_node],
-                                                             graph_configuration['Default'])
+                node_configuration = graph_configuration['Default']
+                for key in graph_configuration:
+                    if type_label_values_dict[id_node] in key.split(","):
+                        node_configuration = graph_configuration[key]
+                        break
                 table_html.attrib['cellborder'] = str(node_configuration.get('cellborder',
                                                                              graph_configuration['Default']['cellborder'])
                                                       )
