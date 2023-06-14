@@ -24,10 +24,8 @@ import subprocess
 import webbrowser
 import click
 
-from renku.domain_model.project_context import project_context
 from IPython.display import Image, HTML
 from prettytable import PrettyTable
-from renkugraphvis.config import ENTITY_METADATA_GRAPHVIS_DIR
 
 import renkugraphvis.graph_utils as graph_utils
 

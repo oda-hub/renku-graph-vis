@@ -24,7 +24,6 @@ install_requires = [
     'rdflib',
     'bs4',
     'renku==2.4.1',
-    # 'aqsconverters',
     'nb2workflow>=1.3.41',
     'pyvis==0.3.0',
     'pydotplus',
