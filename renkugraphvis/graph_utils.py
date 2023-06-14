@@ -386,11 +386,11 @@ def build_graph_image(revision, paths, filename, input_notebook):
 
     type_label_values_dict = {}
     analyze_types(G, type_label_values_dict)
-    print(type_label_values_dict)
+
     stream = io.StringIO()
-    rdf2dot.rdf2dot(G, stream, opts={display})
+    rdf2dot.rdf2dot(G, stream)
     pydot_graph = pydotplus.graph_from_dot_data(stream.getvalue())
-    # print(type_label_values_dict)
+
     for node in pydot_graph.get_nodes():
         customize_node(node,
                        nodes_graph_config_obj,
@@ -490,6 +490,7 @@ def customize_node(node: typing.Union[pydotplus.Node],
         if td_list_first_row is not None:
             td_list_first_row[0].attrib.pop('bgcolor')
             b_element_title = td_list_first_row[0].findall('B')
+            b_element_title[0].attrib['align'] = 'center'
             node_configuration = graph_configuration['Default']
             if b_element_title is not None:
                 id_node = b_element_title[0].text
@@ -497,8 +498,6 @@ def customize_node(node: typing.Union[pydotplus.Node],
                 for key in graph_configuration:
                     if id_node in type_label_values_dict and type_label_values_dict[id_node] in key.split(","):
                         node_configuration = graph_configuration[key]
-                        b_element_title[0].text = type_label_values_dict[id_node]
-                        b_element_title[0].attrib['align'] = 'center'
                         break
                 # apply styles (shapes, colors etc etc)
                 table_html.attrib['cellborder'] = str(node_configuration.get('cellborder',
@@ -629,7 +628,8 @@ def analyze_types(g, type_label_values_dict):
         if isinstance(s_label, rdflib.Literal):
             s_label = s_label.value
         type_label_values_dict[s_label] = o_qname[2]
-    g.remove((None, rdflib.RDF.type, None))
+        g.remove((s, rdflib.RDF.type, o))
+        g.add((s, rdflib.RDF.type, rdflib.Literal(o_qname[2])))
 
 
 def label(x, g):
