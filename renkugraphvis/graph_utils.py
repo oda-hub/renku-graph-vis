@@ -322,10 +322,10 @@ def build_graph_image(revision, paths, filename, input_notebook):
         "shape": "box",
         "color": "#FFFFFF",
         "style": "filled",
-        "border": 0,
+        "border": 2,
         "cellborder": 0,
         "value": 20,
-        "margin": 10
+        "cellpadding": 5
     }
 
     if paths is None:
@@ -500,16 +500,21 @@ def customize_node(node: typing.Union[pydotplus.Node],
                         node_configuration = graph_configuration[key]
                         break
                 # apply styles (shapes, colors etc etc)
-                table_html.attrib['cellborder'] = str(node_configuration.get('cellborder',
-                                                                             graph_configuration['Default']['cellborder'])
-                                                      )
-                table_html.attrib['border'] = str(node_configuration.get('border',
-                                                                         graph_configuration['Default']['cellborder'])
-                                                  )
                 # color and shape change
-                node.set_style(node_configuration['style'])
-                node.set_shape(node_configuration['shape'])
-                node.set_color(node_configuration['color'])
+                node.set_style(node_configuration.get('style', graph_configuration['Default']['style']))
+                node.set_shape(node_configuration.get('shape', graph_configuration['Default']['shape']))
+                node.set_color(node_configuration.get('color', graph_configuration['Default']['color']))
+
+                table_html.attrib['cellborder'] = str(node_configuration.get('cellborder',
+                                                                             graph_configuration['Default']['cellborder']))
+                # otherwise the output contains imperfections with the border, as specified in the doc
+                if node.get_color().upper() != "#FFFFFF":
+                    table_html.attrib['border'] = str(0)
+                else:
+                    table_html.attrib['border'] = str(graph_configuration['Default']['border'])
+                table_html.attrib['cellpadding'] = str(node_configuration.get('cellpadding',
+                                                                         graph_configuration['Default']['cellpadding']))
+
                 # remove not needed long id information
                 table_html.remove(tr_list[1])
                 # remove not-needed information in the output tree nodes
