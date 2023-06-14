@@ -620,23 +620,6 @@ def build_query_construct(graph_nodes_subset_config=None):
     return query_construct
 
 
-# def clean_graph(g):
-    # remove not-needed predicates
-    # g.remove((None, rdflib.URIRef('http://odahub.io/ontology#isUsing'), None))
-    # g.remove((None, rdflib.URIRef('http://odahub.io/ontology#isRequestingAstroRegion'), None))
-    # g.remove((None, rdflib.URIRef('http://odahub.io/ontology#isRequestingAstroObject'), None))
-    # g.remove((None, rdflib.URIRef('http://odahub.io/ontology#isRequestingAstroImage'), None))
-    # g.remove((None, rdflib.URIRef('http://purl.org/dc/terms/title'), None))
-    # g.remove((None, rdflib.URIRef('http://www.w3.org/ns/oa#hasTarget'), None))
-    # g.remove((None, rdflib.URIRef('http://www.w3.org/ns/prov#entity'), None))
-    # g.remove((None, rdflib.URIRef('http://www.w3.org/ns/prov#hadPlan'), None))
-    # g.remove((None, rdflib.URIRef('https://swissdatasciencecenter.github.io/renku-ontology#position'), None))
-    # g.remove((None, rdflib.URIRef('https://swissdatasciencecenter.github.io/renku-ontology#hasArguments'), None))
-    # g.remove((None, rdflib.URIRef('https://swissdatasciencecenter.github.io/renku-ontology#hasInputs'), None))
-    # remove all the type triples
-    # g.remove((None, rdflib.RDF.type, None))
-
-
 def analyze_types(g, type_label_values_dict):
     # analyze types
     types_list = g[:rdflib.RDF.type]
@@ -647,47 +630,6 @@ def analyze_types(g, type_label_values_dict):
             s_label = s_label.value
         type_label_values_dict[s_label] = o_qname[2]
     g.remove((None, rdflib.RDF.type, None))
-
-
-def analyze_arguments(g, action_node_dict, args_default_value_dict):
-    # analyze arguments (and join them all together)
-    args_list = g[:rdflib.URIRef('https://swissdatasciencecenter.github.io/renku-ontology#hasArguments')]
-    for s, o in args_list:
-        s_label = label(s, g)
-        if s_label not in action_node_dict:
-            action_node_dict[s_label] = s
-        if s_label not in args_default_value_dict:
-            args_default_value_dict[s_label] = []
-        arg_obj_list = g[o:rdflib.URIRef('http://schema.org/defaultValue')]
-        for arg_o in arg_obj_list:
-            position_o = list(g[o:rdflib.URIRef('https://swissdatasciencecenter.github.io/renku-ontology#position')])
-            if len(position_o) == 1:
-                args_default_value_dict[s_label].append((arg_o.n3().strip('\"'), position_o[0].value))
-                g.remove((o, rdflib.URIRef('http://schema.org/defaultValue'), arg_o))
-    # infer isArgumentOf property for each action, this implies the creation of the new CommandParameter nodes
-    # with the related defaultValue
-    for action in args_default_value_dict.keys():
-        arg_pos_list = args_default_value_dict[action].copy()
-        # order according their position
-        arg_pos_list.sort(key=lambda arg_tuple: arg_tuple[1])
-        iter_arg_pos_list = iter(arg_pos_list)
-        for x, y in zip(iter_arg_pos_list, iter_arg_pos_list):
-            # create the node
-            # TODO id needs to be properly assigned! now the name of the parameter is used
-            node_args = rdflib.URIRef("https://github.com/plans/84d9b437-4a55-4573-9aa3-4669ff641f1b/parameters/"
-                                      + x[0].replace(" ", "_") + "_" + y[0].replace(" ", "_"))
-            # link it to the action node
-            g.add((node_args,
-                   rdflib.URIRef('https://swissdatasciencecenter.github.io/renku-ontology#isArgumentOf'),
-                   action_node_dict[action]))
-            # value for the node args
-            g.add((node_args,
-                   rdflib.URIRef('http://schema.org/defaultValue'),
-                   rdflib.Literal((x[0] + " " + y[0]).strip())))
-            # create a new CommandParameter and use the defaultValue information
-            g.add((node_args,
-                   rdflib.RDF.type,
-                   rdflib.URIRef("https://swissdatasciencecenter.github.io/renku-ontology#CommandParameter")))
 
 
 def label(x, g):
