@@ -17,8 +17,6 @@
 # limitations under the License.
 
 import os
-import pathlib
-import json
 import re
 import subprocess
 import webbrowser
