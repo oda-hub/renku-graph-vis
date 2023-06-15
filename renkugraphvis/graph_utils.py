@@ -30,7 +30,7 @@ __conf_dir__ = os.path.join(os.path.dirname(__file__), 'configs_dir')
 
 def _graphvis_graph():
     G = rdflib.Graph()
-    metadata_path = pathlib.Path(os.path.join(project_context.metadata_path, ENTITY_METADATA_GRAPHVIS_DIR))
+    metadata_path = pathlib.Path(project_context.metadata_path, ENTITY_METADATA_GRAPHVIS_DIR)
     if metadata_path.exists():
         annotation_list = []
         entity_folder_list = glob.glob(f"{metadata_path}/*")
