@@ -7,7 +7,6 @@
          "shape": "box",
          "color": "#bcddc9",
          "style": "filled",
-         "level": 1,
          "displayed_information": "literals",
          "displayed_literals_format": "parameter_name:no,value:yes"
       },
@@ -15,7 +14,6 @@
          "shape": "box",
          "color": "#91acc1",
          "style": "filled",
-         "level": 1,
          "displayed_information": "literals",
          "displayed_literals_format": "parameter_name:no,value:yes"
       },
@@ -23,7 +21,6 @@
          "shape": "box",
          "color": "#91acbf",
          "style": "filled",
-         "level": 1,
          "displayed_information": "literals",
          "displayed_literals_format": "parameter_name:no,value:yes"
       },
@@ -31,7 +28,6 @@
          "shape": "box",
          "color": "#91acdf",
          "style": "filled",
-         "level": 1,
          "displayed_information": "literals",
          "displayed_literals_format": "parameter_name:no,value:yes"
       },
@@ -56,7 +52,6 @@
          "shape": "box",
          "color": "#00CC00",
          "style": "filled",
-         "level": 0,
          "displayed_information": "literals",
          "displayed_literals_format": "AQModule:no"
       },
@@ -64,7 +59,6 @@
          "shape": "box",
          "color": "#d0d0e8",
          "style": "filled",
-         "level": 1,
          "displayed_information": "literals",
          "displayed_literals_format": "AstroObject:no,arg_name:yes,parameter_name:no,value:yes"
       },
@@ -72,7 +66,6 @@
          "shape": "box",
          "color": "#6262bf",
          "style": "filled",
-         "level": 1,
          "displayed_information": "title",
          "displayed_literals_format": "title:no"
       },
@@ -80,14 +73,12 @@
          "shape": "box",
          "color": "#027F45",
          "style": "filled",
-         "level": 1,
          "displayed_information": "title"
       },
       "Angle": {
          "shape": "box",
          "color": "#1B81FB",
          "style": "filled",
-         "level": 2,
          "displayed_information": "both",
          "displayed_literals_format": "title:no"
       },
@@ -95,7 +86,6 @@
          "shape": "box",
          "color": "#1B81FB",
          "style": "filled",
-         "level": 2,
          "displayed_information": "both",
          "displayed_literals_format": "title:no"
       },
@@ -103,7 +93,6 @@
          "shape": "box",
          "color": "#91acca",
          "style": "filled",
-         "level": 1,
          "displayed_information": "literals",
          "displayed_literals_format": "output_name:no,parameter_name:no,value:yes"
       },
@@ -111,7 +100,6 @@
          "shape": "box",
          "color": "#91acca",
          "style": "filled",
-         "level": 1,
          "displayed_information": "literals",
          "displayed_literals_format": "output_name:no,parameter_name:no,value:yes"
       },
@@ -119,7 +107,6 @@
          "shape": "box",
          "color": "#1B81FB",
          "style": "filled",
-         "level": 2,
          "displayed_information": "both",
          "displayed_literals_format": "title:no"
       },
@@ -127,7 +114,6 @@
          "shape": "box",
          "color": "#1B81FB",
          "style": "filled",
-         "level": 2,
          "displayed_information": "both",
          "displayed_literals_format": "title:no"
       },
@@ -135,7 +121,6 @@
          "shape": "box",
          "color": "#1B81FB",
          "style": "filled",
-         "level": 2,
          "displayed_information": "both",
          "displayed_literals_format": "title:no"
       }
