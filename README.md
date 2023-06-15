@@ -97,7 +97,8 @@ two json files have been loaded, and the related checkbox will enable/disable th
 
 
 The functionalities for the graph drawing and the user-interactions with it are developed in a dedicated javascript library.
-This is available at the following [repository](https://github.com/oda-hub/renku-aqs-graph-library/).
+This is available at the following [repository](https://github.com/oda-hub/renku-aqs-graph-library/). 
+A detailed description of the various configuration files, as well as the functionalities that the library exposes, is provided.
 
 ### Graph visualization within a renkulab session
 
