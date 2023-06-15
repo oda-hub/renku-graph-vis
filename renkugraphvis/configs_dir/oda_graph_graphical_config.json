@@ -31,7 +31,6 @@
          "displayed_literals_format": "label:no",
          "displayed_type_name": "<i>OntologyClass</i>",
          "font": {
-            "multi": "html",
             "face": "courier",
             "size": 38,
             "boldital": {
