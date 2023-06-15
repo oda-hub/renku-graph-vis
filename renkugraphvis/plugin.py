@@ -29,6 +29,7 @@ import renkugraphvis.graph_utils as graph_utils
 
 @click.group()
 def graphvis():
+    """Set of commands to generate interactive graph visualization."""
     pass
 
 
@@ -47,6 +48,7 @@ def show_graph_image(revision="HEAD", paths=os.getcwd(), filename="graph.png", i
 @click.option("--input-notebook", default=None, help="Input notebook to process")
 @click.argument("paths", type=click.Path(exists=False), nargs=-1)
 def display(revision, paths, filename, input_notebook):
+    """Generates an output of the entire graph over an image file picture."""
     path = paths
     if paths is not None and isinstance(paths, click.Path):
         path = str(path)
@@ -79,6 +81,7 @@ def start_session():
 
 @graphvis.command()
 def show_graph():
+    """Generates a web-based interactive version of the entire graph."""
     graph_html_content, ttl_content = graph_utils.build_graph_html(None, None)
     html_fn, ttl_fn = graph_utils.write_graph_files(graph_html_content, ttl_content)
 

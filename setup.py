@@ -25,7 +25,7 @@ install_requires = [
     'bs4',
     'renku==2.4.1',
     'nb2workflow>=1.3.41',
-    'renku-oda-annotation @ git+https://github.com/oda-hub/renku-oda-annotation@first-implementation#egg=renku-oda-annotation',
+    'renku-aqs-annotation @ git+https://github.com/oda-hub/renku-aqs-annotation@first-implementation#egg=renku-aqs-annotation',
     'pyvis==0.3.0',
     'pydotplus',
     'lockfile'
