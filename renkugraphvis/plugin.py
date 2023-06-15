@@ -32,8 +32,8 @@ def graphvis():
     pass
 
 
-def show_graph_image(revision="HEAD", paths=os.getcwd(), filename="graph.png", no_oda_info=True, input_notebook=None):
-    filename = graph_utils.build_graph_image(revision, paths, filename, no_oda_info, input_notebook)
+def show_graph_image(revision="HEAD", paths=os.getcwd(), filename="graph.png", input_notebook=None):
+    filename = graph_utils.build_graph_image(revision, paths, filename, input_notebook)
     return Image(filename=filename)
 
 
