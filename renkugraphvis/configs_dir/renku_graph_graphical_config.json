@@ -7,7 +7,6 @@
          "shape": "box",
          "color": "#adb6ce",
          "style": "filled",
-         "value": 35,
          "level": 0,
          "font": {
               "size": 24,
@@ -22,21 +21,18 @@
          "shape": "box",
          "color": "#00FC10",
          "style": "filled",
-         "value": 35,
          "level": 0
       },
       "CommandParameter": {
          "shape": "box",
          "color": "#6262be",
          "style": "filled",
-         "value": 15,
          "level": 3
       },
       "EntityInput": {
          "shape": "box",
          "color": "#DBA3BC",
          "style": "filled",
-         "value": 20,
          "level": 3,
          "displayed_type_name": "Input",
          "displayed_information": "literals",
@@ -46,7 +42,6 @@
          "shape": "box",
          "color": "#FFFF00",
          "style": "filled",
-         "value": 25,
          "level": 5,
          "displayed_type_name": "Output",
          "displayed_information": "literals",
@@ -56,7 +51,6 @@
          "shape": "box",
          "color": "#DBA3BC",
          "style": "filled",
-         "value": 25,
          "level": 5,
          "displayed_type_name": "Output notebook"
       },
@@ -65,7 +59,6 @@
          "color": "#FFFFFF",
          "style": "filled",
          "border": 1,
-         "value": 25,
          "level": 5,
          "displayed_type_name": "Output image"
       },
@@ -74,7 +67,6 @@
          "color": "#FFFFFF",
          "style": "filled",
          "border": 1,
-         "value": 25,
          "level": 5,
          "displayed_type_name": "Output fits file"
       },
@@ -83,7 +75,6 @@
          "color": "#FFFFFF",
          "style": "filled",
          "border": 1,
-         "value": 25,
          "level": 5,
          "displayed_type_name": "Output ecsv file"
       },
@@ -91,7 +82,6 @@
          "shape": "box",
          "color": "#DBA3BC",
          "style": "filled",
-         "value": 20,
          "level": 3,
          "displayed_type_name": "Input",
          "displayed_information": "literals",
@@ -101,7 +91,6 @@
          "shape": "box",
          "color": "#D5C15D",
          "style": "filled",
-         "value": 35,
          "level": 4,
          "displayed_type_name": "Plan",
          "displayed_information": "title",
