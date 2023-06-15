@@ -6,35 +6,30 @@
       "StartTime,EndTime": {
          "shape": "box",
          "color": "#bcddc9",
-         "style": "filled",
          "displayed_information": "literals",
          "displayed_literals_format": "parameter_name:no,value:yes"
       },
       "PointOfInterestRA,PointOfInterestDEC": {
          "shape": "box",
          "color": "#91acc1",
-         "style": "filled",
          "displayed_information": "literals",
          "displayed_literals_format": "parameter_name:no,value:yes"
       },
       "int,integer,Integer": {
          "shape": "box",
          "color": "#91acbf",
-         "style": "filled",
          "displayed_information": "literals",
          "displayed_literals_format": "parameter_name:no,value:yes"
       },
       "str,String,string": {
          "shape": "box",
          "color": "#91acdf",
-         "style": "filled",
          "displayed_information": "literals",
          "displayed_literals_format": "parameter_name:no,value:yes"
       },
       "Class": {
          "shape": "box",
          "color": "#ffffff",
-         "style": "filled",
          "displayed_information": "literals",
          "displayed_literals_format": "label:no",
          "displayed_type_name": "<i>OntologyClass</i>",
@@ -50,28 +45,24 @@
       "AstroqueryModule": {
          "shape": "box",
          "color": "#00CC00",
-         "style": "filled",
          "displayed_information": "literals",
          "displayed_literals_format": "AQModule:no"
       },
       "AstrophysicalObject": {
          "shape": "box",
          "color": "#d0d0e8",
-         "style": "filled",
          "displayed_information": "literals",
          "displayed_literals_format": "AstroObject:no,arg_name:yes,parameter_name:no,value:yes"
       },
       "AstrophysicalRegion": {
          "shape": "box",
          "color": "#6262bf",
-         "style": "filled",
          "displayed_information": "title",
          "displayed_literals_format": "title:no"
       },
       "AstrophysicalImage": {
          "shape": "box",
          "color": "#027F45",
-         "style": "filled",
          "displayed_information": "title"
       },
       "Angle": {
@@ -84,21 +75,18 @@
       "SkyCoordinates": {
          "shape": "box",
          "color": "#1B81FB",
-         "style": "filled",
          "displayed_information": "both",
          "displayed_literals_format": "title:no"
       },
       "LightCurve": {
          "shape": "box",
          "color": "#91acca",
-         "style": "filled",
          "displayed_information": "literals",
          "displayed_literals_format": "output_name:no,parameter_name:no,value:yes"
       },
       "ODAPictureProduct": {
          "shape": "box",
          "color": "#91acca",
-         "style": "filled",
          "displayed_information": "literals",
          "displayed_literals_format": "output_name:no,parameter_name:no,value:yes"
       },
@@ -112,14 +100,12 @@
       "Position": {
          "shape": "box",
          "color": "#1B81FB",
-         "style": "filled",
          "displayed_information": "both",
          "displayed_literals_format": "title:no"
       },
       "Pixels": {
          "shape": "box",
          "color": "#1B81FB",
-         "style": "filled",
          "displayed_information": "both",
          "displayed_literals_format": "title:no"
       }

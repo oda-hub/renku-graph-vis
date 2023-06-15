@@ -6,7 +6,6 @@
       "Run": {
          "shape": "box",
          "color": "#adb6ce",
-         "style": "filled",
          "font": {
               "size": 24,
               "face": "courier"
@@ -18,18 +17,15 @@
       },
       "Activity": {
          "shape": "box",
-         "color": "#00FC10",
-         "style": "filled"
+         "color": "#00FC10"
       },
       "CommandParameter": {
          "shape": "box",
-         "color": "#6262be",
-         "style": "filled"
+         "color": "#6262be"
       },
       "EntityInput": {
          "shape": "box",
          "color": "#DBA3BC",
-         "style": "filled",
          "displayed_type_name": "Input",
          "displayed_information": "literals",
          "displayed_literals_format": "atLocation:no"
@@ -37,7 +33,6 @@
       "CommandOutput": {
          "shape": "box",
          "color": "#FFFF00",
-         "style": "filled",
          "displayed_type_name": "Output",
          "displayed_information": "literals",
          "displayed_literals_format": "atLocation:no"
@@ -45,34 +40,29 @@
       "CommandOutputNotebook": {
          "shape": "box",
          "color": "#DBA3BC",
-         "style": "filled",
          "displayed_type_name": "Output notebook"
       },
       "CommandOutputImage": {
          "shape": "box",
          "color": "#FFFFFF",
-         "style": "filled",
          "border": 1,
          "displayed_type_name": "Output image"
       },
       "CommandOutputFitsFile": {
          "shape": "box",
          "color": "#FFFFFF",
-         "style": "filled",
          "border": 1,
          "displayed_type_name": "Output fits file"
       },
       "CommandOutputEcsvFile": {
          "shape": "box",
          "color": "#FFFFFF",
-         "style": "filled",
          "border": 1,
          "displayed_type_name": "Output ecsv file"
       },
       "CommandInput": {
          "shape": "box",
          "color": "#DBA3BC",
-         "style": "filled",
          "displayed_type_name": "Input",
          "displayed_information": "literals",
          "displayed_literals_format": "defaultValue:no"
