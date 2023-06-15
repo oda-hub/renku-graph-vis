@@ -23,28 +23,8 @@ import webbrowser
 import click
 
 from IPython.display import Image, HTML
-from prettytable import PrettyTable
 
 import renkugraphvis.graph_utils as graph_utils
-
-
-def _run_id(activity_id):
-    return str(activity_id).split("/")[-1]
-
-
-def _create_leaderboard(data, metric, format=None):
-    leaderboard = PrettyTable()
-    leaderboard.field_names = ["Run ID", "Module", "Query", metric]
-    leaderboard.align["Module"] = "l"
-    leaderboard.align["Query"] = "l"
-    leaderboard.align[metric] = "r"
-    for commit, v in data.items():
-        if metric in v:
-            v["query"].sort()
-            leaderboard.add_row([commit, v["module"], v["query"], v[metric]])
-    leaderboard.sortby = metric
-    leaderboard.reversesort = True
-    return leaderboard
 
 
 @click.group()
