@@ -35,7 +35,6 @@
          "shape": "box",
          "color": "#ffffff",
          "style": "filled",
-         "level": 0,
          "displayed_information": "literals",
          "displayed_literals_format": "label:no",
          "displayed_type_name": "<i>OntologyClass</i>",

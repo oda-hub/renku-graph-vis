@@ -19,12 +19,12 @@
       "Activity": {
          "shape": "box",
          "color": "#00FC10",
-         "style": "filled",
+         "style": "filled"
       },
       "CommandParameter": {
          "shape": "box",
          "color": "#6262be",
-         "style": "filled",
+         "style": "filled"
       },
       "EntityInput": {
          "shape": "box",
