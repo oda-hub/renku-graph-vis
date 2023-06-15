@@ -1,7 +1,4 @@
 {
-   "Edges": {
-
-   },
    "Nodes": {
       "StartTime,EndTime": {
          "shape": "box",
