@@ -14,7 +14,14 @@
       },
       "Activity": {
          "shape": "box",
-         "color": "#00FC10"
+         "color": "#00FC10",
+         "font": {
+            "face": "courier",
+            "size": 24,
+            "bold": {
+                "size": 36
+            }
+        }
       },
       "CommandParameter": {
          "shape": "box",
@@ -23,7 +30,6 @@
       "EntityInput": {
          "shape": "box",
          "color": "#DBA3BC",
-         "displayed_type_name": "Input",
          "displayed_information": "literals",
          "displayed_literals_format": "atLocation:no"
       },
