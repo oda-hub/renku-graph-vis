@@ -57,29 +57,6 @@ def display(revision, paths, filename, input_notebook):
 
 
 @graphvis.command()
-def start_session():
-    gitlab_url = subprocess.check_output(["git", "remote", "get-url", "origin"]).decode().strip()
-
-    new_session_urls = []
-
-    for pattern in [
-        'https://renkulab.io/gitlab/(.*)\.git',
-        'git@renkulab.io:(.*)\.git'
-    ]:
-        if (r := re.match(pattern, gitlab_url)) is not None:
-            new_session_urls.append(f"https://renkulab.io/projects/{r.group(1)}/sessions/new?autostart=1&branch=master")
-
-    if (n := len(new_session_urls)) > 1:
-        click.echo(f"using first of many session URLs: {new_session_urls}")
-    elif n == 0:
-        raise RuntimeError("unable to find any session URLs")
-
-    click.echo(f"will open new session: {new_session_urls[0]}")
-
-    webbrowser.open(new_session_urls[0])
-
-
-@graphvis.command()
 def show_graph():
     """Generates a web-based interactive version of the entire graph."""
     graph_html_content, ttl_content = graph_utils.build_graph_html(None, None)
