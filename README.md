@@ -5,8 +5,8 @@ Starting from the knowledge graph extracted from the renku project, this is quer
 perform some inferring and generating an interactive graphical representation.
 
 In particular, two commands are provided:
-<!-- TODO deprecated? -->
-* `display` to generate a representation of the graph over an output image (probably will be deprecated)
+
+* `display` to generate a representation of the graph over an output image
 * `show-graph` to start an interactive visualization of the graph over the browser 
 
 ### `display` command
@@ -22,7 +22,7 @@ In particular, the following information are elaborated:
 #### Parameters
 
 * `--filename` The filename of the output file image, until now, only png images are supported (eg `--filename graph.png`), default is `graph.png`
-* `--input-notebook` Input notebook to process, if not specified, will query for all the executions from all notebooks  
+* `--input` Input entity to process (eg input notebook for a papermill execution), if not specified, will query for all the executions from all input entities  
 * `--revision` The revision of the renku project at which the graph should be extracted, defaults to `HEAD`    
 ```bash
 $ renku graphvis display

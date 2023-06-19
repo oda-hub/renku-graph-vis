@@ -217,7 +217,7 @@ def build_graph_html(revision, paths,
     return net.html, graph_str
 
 
-def build_graph_image(revision, paths, filename, input_notebook):
+def build_graph_image(revision, paths, filename, input_entity):
 
     graph_node_config_obj_default = {
         "shape": "box",
@@ -270,7 +270,7 @@ def build_graph_image(revision, paths, filename, input_notebook):
     graph = extract_graph(revision, paths, graph_nodes_subset_config=graph_nodes_subset_config_obj)
     renku_path = paths
 
-    query_where = build_query_where(input_notebook=input_notebook, graph_nodes_subset_config=graph_nodes_subset_config_obj)
+    query_where = build_query_where(input_entity=input_entity, graph_nodes_subset_config=graph_nodes_subset_config_obj)
     query_construct = build_query_construct(graph_nodes_subset_config=graph_nodes_subset_config_obj)
 
     query = f"""{query_construct}
@@ -443,7 +443,7 @@ def customize_node(node: typing.Union[pydotplus.Node],
             node.obj_dict['attributes']['label'] = '< ' + etree.tostring(table_html, encoding='unicode') + ' >'
 
 
-def build_query_where(input_notebook: str = None, graph_nodes_subset_config = None):
+def build_query_where(input_entity: str = None, graph_nodes_subset_config = None):
     query_where = """
     WHERE {
     
@@ -463,10 +463,10 @@ def build_query_where(input_notebook: str = None, graph_nodes_subset_config = No
      
     """
 
-    if input_notebook is not None:
+    if input_entity is not None:
         query_where += f"""
                         
-            FILTER ( ?entityInputLocation = '{input_notebook}' ) .
+            FILTER ( ?entityInputLocation = '{input_entity}' ) .
                     
         """
 

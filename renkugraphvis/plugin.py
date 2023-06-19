@@ -45,14 +45,14 @@ def show_graph_image(revision="HEAD", paths=os.getcwd(), filename="graph.png", i
     help="The git revision to generate the log for, default: HEAD",
 )
 @click.option("--filename", default="graph.png", help="The filename of the output file image")
-@click.option("--input-notebook", default=None, help="Input notebook to process")
+@click.option("--input", 'input_entity', default=None, help="Input notebook to process")
 @click.argument("paths", type=click.Path(exists=False), nargs=-1)
-def display(revision, paths, filename, input_notebook):
+def display(revision, paths, filename, input_entity):
     """Generates an output of the entire graph over an image file picture."""
     path = paths
     if paths is not None and isinstance(paths, click.Path):
         path = str(path)
-    output_filename = graph_utils.build_graph_image(revision, path, filename, input_notebook)
+    output_filename = graph_utils.build_graph_image(revision, path, filename, input_entity)
     return output_filename
 
 
