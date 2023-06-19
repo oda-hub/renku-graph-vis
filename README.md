@@ -22,14 +22,14 @@ CLI command to output a graphical representation of the graph over a png image.
 ```bash
 $ renku graphvis display
  ```
-![](readme_imgs/example_display_graph_complete.png)
+![](readme_imgs/example_display_graph_complete_2.png)
 
 #### Specify input
 ```bash
 $ renku graphvis display --input final-an.ipynb
  ```
 
-![](readme_imgs/example_display_graph_final-an.png)
+![](readme_imgs/example_display_graph_final-an_1.png)
 
 ## `show-graph` command
 
