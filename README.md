@@ -9,36 +9,29 @@ In particular, two commands are provided:
 * `display` to generate a representation of the graph over an output image
 * `show-graph` to start an interactive visualization of the graph over the browser 
 
-### `display` command
-<details>
-
-<summary>CLI command</summary>
+## `display` command
 
 CLI command to output a graphical representation of the graph over a png image.
-
-In particular, the following information are elaborated:
-* inputs/arguments/outputs of the single workflow (eg notebook execution);
 
 #### Parameters
 
 * `--filename` The filename of the output file image, until now, only png images are supported (eg `--filename graph.png`), default is `graph.png`
 * `--input` Input entity to process (eg input notebook for a papermill execution), if not specified, will query for all the executions from all input entities  
-* `--revision` The revision of the renku project at which the graph should be extracted, defaults to `HEAD`    
+* `--revision` The revision of the renku project at which the graph should be extracted, defaults to `HEAD`   
+
 ```bash
 $ renku graphvis display
  ```
 ![](readme_imgs/example_display_graph_complete.png)
 
-#### Specify executed notebook
+#### Specify input
 ```bash
-$ renku aqs display --input-notebook final-an.ipynb
+$ renku graphvis display --input final-an.ipynb
  ```
 
 ![](readme_imgs/example_display_graph_final-an.png)
 
-</details>
-
-### `show-graph` command
+## `show-graph` command
 
 CLI command to generate an interactive, web-based, graphical representation of the graph.
 
