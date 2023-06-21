@@ -65,15 +65,15 @@ The interface provides the user with a number of adjustable options:
   </div>
 
 * **Enable/disable selection of subsets of nodes**: filtering of certain subset of nodes (eg astroquery-related nodes).
-This is configurable via a dedicated json file.
+This is configurable via a dedicated json file, as explained [here](https://github.com/oda-hub/renku-aqs-graph-library/#subset-selection-of-nodes).
 <div align="center">
 <img width="30%" src="readme_imgs/enable_disable_set_nodes-graph.png">
 </div>
 
-* **Apply reductions on the graph**: allows to enable the display of certain nodes with the relative child ones 
+* **Apply absorptions of ndoes on the graph**: allows to enable the display of certain nodes with the relative child ones 
 absorbed within, and viceversa (eg in the example images, the `Activity` node has a number of child nodes, those
 can be visualized inside the `Activity`, left image, as well as regular separate ones, right image).
-This is configurable via a dedicated json file.
+This is configurable via a dedicated json file, as explained [here](https://github.com/oda-hub/renku-aqs-graph-library/#absorptionexpansion-of-nodes).
 <div align="center">
 <img align="center" width="37%" src="readme_imgs/reduced_activity.png">
 <img align="center" width="38%" src="readme_imgs/expanded_activity.png">
@@ -81,8 +81,8 @@ This is configurable via a dedicated json file.
 <br clear="left"/>
 
 * **Enable/disable graphical configurations for the graph**: enable/disable a set of graphical configurations for
-the graph (nodes and edges), where each configuration is loaded from a dedicated json file. In the image displayed below,
-two json files have been loaded, and the related checkbox will enable/disable that configuration.
+the graph (nodes and edges), where each configuration is loaded from a dedicated json file as explained [here](https://github.com/oda-hub/renku-aqs-graph-library/#graphical).
+In the image displayed below, two json files have been loaded, and the related checkbox will enable/disable that configuration.
 <div align="center">
 <img width="30%" src="readme_imgs/enable_disable_configuration-graph.png">
 </div>
