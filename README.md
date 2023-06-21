@@ -1,13 +1,16 @@
-# renku-graph-vis
+# renku-graph-vis plugin
 
 ## Graphical visualization of the graph
 Starting from the knowledge graph extracted from the renku project, this is queried to retrieve the needed information, 
-perform some inferring and generating an interactive graphical representation.
+ and generating an interactive graphical representation.
 
-In particular, two commands are provided:
+In particular, two main sets of functionalities are provided: 
 
-* `display` to generate a representation of the graph over an output image
-* `show-graph` to start an interactive visualization of the graph over the browser 
+* Two CLI commands
+  * `display` to generate a representation of the graph over an output image
+  * `show-graph` to start an interactive visualization of the graph over the browser
+* dynamic visualization of the graph during a renku session
+
 
 ## `display` command
 
@@ -65,13 +68,13 @@ The interface provides the user with a number of adjustable options:
   </div>
 
 * **Enable/disable selection of subsets of nodes**: filtering of certain subset of nodes (eg astroquery-related nodes).
-This is configurable via a dedicated json file, as explained [here](https://github.com/oda-hub/renku-aqs-graph-library/#subset-selection-of-nodes).
+This is configurable via a dedicated json file, as explained [here](https://github.com/oda-hub/renku-aqs-graph-library/#selection-of-subset-of-nodes).
 <div align="center">
 <img width="30%" src="readme_imgs/enable_disable_set_nodes-graph.png">
 </div>
 
 * **Apply absorptions of ndoes on the graph**: allows to enable the display of certain nodes with the relative child ones 
-absorbed within, and viceversa (eg in the example images, the `Activity` node has a number of child nodes, those
+absorbed within, and viceversa (eg in the example below, the `Activity` node has a number of child nodes, those
 can be visualized inside the `Activity`, left image, as well as regular separate ones, right image).
 This is configurable via a dedicated json file, as explained [here](https://github.com/oda-hub/renku-aqs-graph-library/#absorptionexpansion-of-nodes).
 <div align="center">
