@@ -69,12 +69,13 @@ def set_html_content(net,
             '<h3 style="margin: 15px 0px 10px 5px;">Enable/disable selections</h3>')
         for nodes_subset_obj in graph_nodes_subset_config_obj_dict:
             prefixes_values = graph_nodes_subset_config_obj_dict[nodes_subset_obj]['prefixes']
+            description = graph_nodes_subset_config_obj_dict[nodes_subset_obj].get('description', prefixes_values)
             html_code += (f'''
                 <div style="margin: 5px">
                     <label><input type="checkbox" id="{nodes_subset_obj}_filter" 
                         value="{prefixes_values}" 
                         onchange="enable_filter(this)" checked>
-                        oda astroquery-related nodes</label>
+                        {description}</label>
                 </div>
             ''')
         html_code += '</div>'
