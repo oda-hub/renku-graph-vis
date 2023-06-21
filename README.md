@@ -44,8 +44,7 @@ $ renku graphvis show-graph
 The user can interact with the graph via a single click on one of its nodes: upon clicking, 
 a `SPARQL` query is dynamically built, and this will retrieve all the nodes and edges directly 
 connected to the clicked node, as shown in the animation below. Once the node has been expanded, 
-the newly added nodes, along with the other leaves nodes that are connected to the previously 
-clicked node, can be re-absorbed by clicking again on the very same node. This is also visible 
+the newly added nodes can be re-absorbed by clicking again on the very same node. This is also visible 
 in the animation below.
 
 <div align="center">
@@ -104,15 +103,14 @@ new session is started.
 </div>
 
 The graph is dynamically updated while working in the session. In the example below, the execution of a notebook
-is started, and when this completes the graph is automatically re-loaded, including the execution that had just
-completed.
+is started, and when this completes the graph is automatically re-loaded, including the latest execution.
 
 <div align="center">
 <img width="75%" src="readme_imgs/renkulab_execution_example_1.gif">
 </div>
 
 *** 
-# Installation of the plugin
+# Plugin requirements
 
 Currently, the plugin is developed using the version `2.4.1` of [renku-python](https://github.com/SwissDataScienceCenter/renku-python). Please make sure such version is installed by running:
 
