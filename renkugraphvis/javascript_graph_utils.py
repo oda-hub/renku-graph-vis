@@ -146,7 +146,7 @@ def set_html_content(net,
     mynetwork_tag = soup.body.find('div', id="mynetwork")
     html_code_bs4 = bs4.BeautifulSoup(html_code, 'html.parser')
     if include_title:
-        newh1_str = '<h1>ODA Graph Export Quick-Look</h1>'
+        newh1_str = '<h1>Graph Export Quick-Look</h1>'
         newh1_tag = bs4.BeautifulSoup(newh1_str, 'html.parser')
         mynetwork_tag.insert_before(newh1_tag)
     mynetwork_tag.insert_before(html_code_bs4)
