@@ -23,7 +23,7 @@ install_requires = [
     'pydotplus',
     'rdflib',
     'bs4',
-    'renku==2.4.1',
+    'renku==2.6.0',
     'nb2workflow>=1.3.41',
     'renku-aqs-annotation @ git+https://github.com/oda-hub/renku-aqs-annotation@first-implementation#egg=renku-aqs-annotation',
     'pyvis==0.3.0',
