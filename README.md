@@ -89,9 +89,7 @@ as explained [here](https://github.com/oda-hub/renku-aqs-graph-library/#absorpti
 <br clear="left"/>
 
 * **Enable/Disable Graphical Configurations for the Graph**:  This feature allows users to enable or disable a set 
-of graphical configurations for the graph's nodes and edges. Each configuration is loaded from a dedicated JSON file, 
-as explained [here](https://github.com/oda-hub/renku-aqs-graph-library/#graphical). In the image below, two JSON files 
-have been loaded, and the related checkboxes will enable/disable their configurations.
+of graphical configurations for the graph's nodes and edges. Each configuration is loaded from a dedicated JSON file, as explained [here](https://github.com/oda-hub/renku-aqs-graph-library/#graphical). In the image below, two JSON files have been loaded, and the related checkboxes will enable/disable their configurations.
 
 <div align="center">
 <img width="30%" src="readme_imgs/enable_disable_configuration-graph.png">
@@ -99,7 +97,7 @@ have been loaded, and the related checkboxes will enable/disable their configura
 
 The functionalities for graph drawing and user interactions are developed in a dedicated JavaScript library 
 available at the following [repository](https://github.com/oda-hub/renku-aqs-graph-library/). 
-A detailed description of the various configuration files and the library's functionalities is provided.
+Detailed descriptions of the various configuration files and the library's functionalities are also provided.
 
 ### Graph visualization within a renkulab session
 
@@ -111,8 +109,7 @@ a new session is started. This will open a dedicated tab for the visualization o
 <img width="75%" src="readme_imgs/renkulab_overview_example_1.png">
 </div>
 
-The graph dynamically updates while working in the session. In the example below, the execution of a notebook is started, 
-and when it completes, the graph is automatically reloaded to include the latest execution.
+The graph dynamically updates while working in the session. In the example below, the execution of a notebook is started, and when it completes, the graph is automatically reloaded to include the latest execution.
 
 <div align="center">
 <img width="75%" src="readme_imgs/renkulab_execution_example_1.gif">
@@ -120,11 +117,13 @@ and when it completes, the graph is automatically reloaded to include the latest
 
 ### Ontology integration into the graph
 
-An ontology can be integrated into the graph, providing valuable insights into the types of entities inside it. The image below displays a graph where the ODA ontology has been imported, and it can be seen that the `SimbadClass` node is an instance of the `AstroqueryModule` class, while `Mrk 421` is an instance of the `AstrophysicalObject` class.
+An ontology can be integrated into the graph. By doing so, it is possible to gain valuable insights into the various types of entities inside the graph itself. In the image below, it can be observed a graph where the ODA ontology has been imported. Notably, the node labeled `SimbadClass` is an instance of the `AstroqueryModule` class, while the entity named `Mrk 421` is an instance of the `AstrophysicalObject` class. The ontology location can be conveniently provided within a dedicated config JSON file. More details are provided at the following [repository](https://github.com/oda-hub/renku-aqs-graph-library/).
 
 <div align="center">
 <img width="75%" src="readme_imgs/details_astroquery_annotations_2.png">
 </div>
+
+The on
 
 ***
 # Plugin requirements and installation
