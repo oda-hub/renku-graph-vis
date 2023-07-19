@@ -118,7 +118,15 @@ and when it completes, the graph is automatically reloaded to include the latest
 <img width="75%" src="readme_imgs/renkulab_execution_example_1.gif">
 </div>
 
-*** 
+### Ontology integration into the graph
+
+An ontology can be integrated into the graph, providing valuable insights into the types of entities inside it. The image below displays a graph where the ODA ontology has been imported, and it can be seen that the `SimbadClass` node is an instance of the `AstroqueryModule` class, while `Mrk 421` is an instance of the `AstrophysicalObject` class.
+
+<div align="center">
+<img width="75%" src="readme_imgs/details_astroquery_annotations_2.png">
+</div>
+
+***
 # Plugin requirements and installation
 
 The plugin is currently developed using version `2.6.0` of renku-python. Please ensure that this version is installed 
