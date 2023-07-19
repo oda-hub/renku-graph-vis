@@ -116,7 +116,7 @@ and when it completes, the graph is automatically reloaded to include the latest
 </div>
 
 *** 
-# Plugin requirements
+# Plugin requirements and installation
 
 The plugin is currently developed using version `2.6.0` of renku-python. Please ensure that this version is installed 
 by running:
@@ -127,8 +127,10 @@ renku --version
 
 The versioning of the dependency is guaranteed during the plugin's installation, and in addition, a dedicated check will be performed during the import.
 
-To install the plugin via `pip`:
+The plugin can be installed via `pip`:
 
 ```bash
 pip install renku_graph_vis
 ```
+
+Or can be made available within a Renku session, by adding those in the list of requirements of the Renku project, within your `requirements.txt` file.
