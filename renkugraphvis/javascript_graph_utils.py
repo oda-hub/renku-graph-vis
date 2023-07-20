@@ -31,7 +31,7 @@ def set_html_content(net,
                      include_title=True):
 
     html_code = '''
-        <div style="margin-left: 5px">
+        <div style="margin-left: 5px; margin-right: 5px">
             <button class="btn btn-secondary btn-sm" onclick="refresh_graph()" type="button">
              <i class="bi bi-arrow-clockwise"></i>
             </button>
@@ -42,6 +42,7 @@ def set_html_content(net,
             <button type="button" class="btn btn-secondary btn-sm collapsible_vertical_ttl">Display ttl content</button>
             <button type="button" class="btn btn-secondary btn-sm collapsible_vertical_menu">Menu</button>
             <button type="button" class="btn btn-secondary btn-sm collapsible_horizontal_legend">Legend</button>
+            <button type="button" class="btn btn-secondary btn-sm float-end">Make a suggestion</button>
             
             <div id="ttl_content" class="content_collapsible_vertical_ttl"></div>
 
@@ -261,7 +262,7 @@ def set_html_head(net):
     soup.head.append(new_script_query_sparql_library)
 
     new_script_bootstrap_icons_css = soup.new_tag("link", rel="stylesheet",  type="text/css",
-                                                   href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css")
+                                                   href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css")
     soup.head.append(new_script_bootstrap_icons_css)
 
     new_script_jquery_library = soup.new_tag("script", type="application/javascript",
