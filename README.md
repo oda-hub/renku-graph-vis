@@ -119,13 +119,11 @@ The graph dynamically updates while working in the session. In the example below
 
 ### Ontology integration into the graph
 
-An ontology can be integrated into the graph. By doing so, it is possible to gain valuable insights into the various types of entities inside the graph itself. In the image below, it can be observed a graph where the ODA ontology has been imported. Notably, the node labeled `SimbadClass` is an instance of the `AstroqueryModule` class, while the entity named `Mrk 421` is an instance of the `AstrophysicalObject` class. The ontology location can be conveniently provided within a dedicated config JSON file. More details are provided at the following [repository](https://github.com/oda-hub/renku-aqs-graph-library/).
+An ontology can be integrated into the graph. By doing so, it is possible to gain valuable insights into the various types of entities present in the graph. In the image below, it can be observed a graph where the ODA ontology has been imported. Notably, the node labeled `SimbadClass` is an instance of the `AstroqueryModule` class, while the entity named `Mrk 421` is an instance of the `AstrophysicalObject` class. The ontology location can be conveniently provided within a dedicated config JSON file. More details are provided at the following [repository](https://github.com/oda-hub/renku-aqs-graph-library/).
 
 <div align="center">
 <img width="75%" src="readme_imgs/details_astroquery_annotations_2.png">
 </div>
-
-The on
 
 ***
 # Plugin requirements and installation
