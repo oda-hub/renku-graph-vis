@@ -106,7 +106,9 @@ class HTTPGraphHandler(SimpleHTTPRequestHandler):
             self.wfile.write(short_sha.encode())
 
         if self.path.startswith('/ttl_graph'):
-            graph_ttl_content = graph_utils.extract_graph(None, paths=os.getcwd())
+            graph_reduction_config_obj = graph_utils.get_graph_reduction_config_obj()
+            graph_ttl_content = graph_utils.extract_graph(None, paths=os.getcwd(),
+                                                          graph_nodes_subset_config=graph_reduction_config_obj)
             graph_ttl_content_str = graph_ttl_content.serialize(format="n3")
             # logging.info(f"ttl graph = {graph_ttl_content_str}")
             logging.info(f'writing ttl_content during {self.path} processing')

@@ -128,20 +128,34 @@ def _nodes_subset_ontologies_graph(graph_nodes_subset_config=None, logger=None):
     return G
 
 
-def build_graph_html(revision, paths,
-                     include_title=True,
-                     template_location="local",
-                     include_ttl_content_within_html=True,
-                     logger=None):
-
-    default_graph_graphical_config_patter_fn = '*_graph_graphical_config.json'
-    graph_nodes_subset_config_patter_fn = '*_graph_nodes_subset_config.json'
-    graph_reduction_config_patter_fn = '*_graph_reduction_config.json'
-
-    graphical_config_list_files = glob.glob(os.path.join(__conf_dir__, default_graph_graphical_config_patter_fn))
+def get_graph_nodes_subset_config_obj(graph_nodes_subset_config_patter_fn='*_graph_nodes_subset_config.json'):
+    graph_nodes_subset_config_obj = None
     nodes_subset_config_list_files = glob.glob(os.path.join(__conf_dir__, graph_nodes_subset_config_patter_fn))
+
+    for config_file_fn in nodes_subset_config_list_files:
+        with open(config_file_fn) as graph_nodes_subset_config_fn_f:
+            if graph_nodes_subset_config_obj is None:
+                graph_nodes_subset_config_obj = {}
+            graph_nodes_subset_config_obj.update(json.load(graph_nodes_subset_config_fn_f))
+
+    return graph_nodes_subset_config_obj
+
+
+def get_graph_reduction_config_obj(graph_reduction_config_patter_fn = '*_graph_reduction_config.json'):
     reduction_config_list_files = glob.glob(os.path.join(__conf_dir__, graph_reduction_config_patter_fn))
 
+    graph_reduction_config_obj = None
+    for config_file_fn in reduction_config_list_files:
+        with open(config_file_fn) as graph_reduction_config_fn_f:
+            if graph_reduction_config_obj is None:
+                graph_reduction_config_obj = {}
+            graph_reduction_config_obj.update(json.load(graph_reduction_config_fn_f))
+
+    return graph_reduction_config_obj
+
+
+def get_graph_graphical_config_obj(graph_graphical_config_patter_fn = '*_graph_graphical_config.json'):
+    graphical_config_list_files = glob.glob(os.path.join(__conf_dir__, graph_graphical_config_patter_fn))
     nodes_graph_config_obj = {}
     edges_graph_config_obj = {}
     graph_config_names_list = []
@@ -164,27 +178,25 @@ def build_graph_html(revision, paths,
             edges_graph_config_obj.update(edges_graph_config_obj_loaded)
 
         graph_config_names_list.append(config_file_fn)
+
+    return nodes_graph_config_obj, edges_graph_config_obj
+
+
+def build_graph_html(revision, paths,
+                     include_title=True,
+                     template_location="local",
+                     include_ttl_content_within_html=True,
+                     logger=None):
+
     # for compatibility with Javascript
+    nodes_graph_config_obj, edges_graph_config_obj = get_graph_graphical_config_obj()
     nodes_graph_config_obj_str = json.dumps(nodes_graph_config_obj).replace("\\\"", '\\\\"')
     edges_graph_config_obj_str = json.dumps(edges_graph_config_obj).replace("\\\"", '\\\\"')
 
-    graph_reduction_config_obj = None
-    for config_file_fn in reduction_config_list_files:
-        with open(config_file_fn) as graph_reduction_config_fn_f:
-            if graph_reduction_config_obj is None:
-                graph_reduction_config_obj = {}
-            graph_reduction_config_obj.update(json.load(graph_reduction_config_fn_f))
-
-    # for compatibility with Javascript
+    graph_reduction_config_obj = get_graph_reduction_config_obj()
     graph_reductions_obj_str = json.dumps(graph_reduction_config_obj)
 
-    graph_nodes_subset_config_obj = None
-    for config_file_fn in nodes_subset_config_list_files:
-        with open(config_file_fn) as graph_nodes_subset_config_fn_f:
-            if graph_nodes_subset_config_obj is None:
-                graph_nodes_subset_config_obj = {}
-            graph_nodes_subset_config_obj.update(json.load(graph_nodes_subset_config_fn_f))
-
+    graph_nodes_subset_config_obj = get_graph_nodes_subset_config_obj()
     # for compatibility with Javascript
     # FIXME there must be a better way
     graph_nodes_subset_config_obj_str = json.dumps(graph_nodes_subset_config_obj)\
