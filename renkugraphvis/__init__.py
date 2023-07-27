@@ -70,7 +70,8 @@ class HTTPGraphHandler(SimpleHTTPRequestHandler):
                                                                                logger=logging.getLogger())
                 self.wfile.write(graph_html_content.encode())
 
-                logging.info(f"ttl graph = {ttl_content}")
+                with open("ttl_content_main_get", "w") as ttl_content_main_get_f:
+                    ttl_content_main_get_f.writelines(ttl_content.serialize(format="n3"))
             except Exception as e:
                 javascript_page_reload_snippet = '''
                     window.addEventListener('load', function() {{
@@ -106,15 +107,17 @@ class HTTPGraphHandler(SimpleHTTPRequestHandler):
 
         if self.path.startswith('/ttl_graph'):
             graph_ttl_content = graph_utils.extract_graph(None, paths=os.getcwd())
-            graph_ttl_content_strr = graph_ttl_content.serialize(format="n3")
-            logging.info(f"ttl graph = {graph_ttl_content_strr}")
+            graph_ttl_content_str = graph_ttl_content.serialize(format="n3")
+            logging.info(f"ttl graph = {graph_ttl_content_str}")
+            with open("ttl_content_ttl_graph_get", "w") as ttl_content_ttl_graph_get_f:
+                ttl_content_ttl_graph_get_f.writelines(graph_ttl_content_str)
             repo = Repo('.')
             sha = repo.head.commit.hexsha
             short_sha = repo.git.rev_parse(sha, short=8)
             logging.info(f"Graph version, git revision is: {short_sha}")
 
             output_obj = {
-                'graph_ttl_content': graph_ttl_content_strr,
+                'graph_ttl_content': graph_ttl_content_str,
                 'graph_version': short_sha
             }
             self.send_response(200)
