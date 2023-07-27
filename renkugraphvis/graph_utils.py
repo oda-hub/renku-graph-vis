@@ -76,7 +76,7 @@ def write_graph_files(graph_html_content, ttl_content):
     return html_fn, ttl_fn
 
 
-def extract_graph(revision, paths, graph_nodes_subset_config=None):
+def extract_graph(revision, paths, graph_nodes_subset_config=None, logger=None):
     if paths is None:
         paths = project_context.path
 
@@ -87,7 +87,7 @@ def extract_graph(revision, paths, graph_nodes_subset_config=None):
     graphvis_graph = _graphvis_graph()
 
     # ontologies graph, from nodes subset config file
-    ontologies_graph = _nodes_subset_ontologies_graph(graph_nodes_subset_config=graph_nodes_subset_config)
+    ontologies_graph = _nodes_subset_ontologies_graph(graph_nodes_subset_config=graph_nodes_subset_config, logger=logger)
 
     # not the recommended approach but works in our case https://rdflib.readthedocs.io/en/stable/merging.html
     overall_graph = graphvis_graph + renku_graph + ontologies_graph
@@ -102,7 +102,7 @@ def extract_graph(revision, paths, graph_nodes_subset_config=None):
     return overall_graph
 
 
-def _nodes_subset_ontologies_graph(graph_nodes_subset_config=None):
+def _nodes_subset_ontologies_graph(graph_nodes_subset_config=None, logger=None):
     G = rdflib.Graph()
     if graph_nodes_subset_config is not None:
         for graph_nodes_subset_config_obj_key in graph_nodes_subset_config:
@@ -111,6 +111,8 @@ def _nodes_subset_ontologies_graph(graph_nodes_subset_config=None):
                 data = urllib.request.urlopen(graph_nodes_subset_config_obj['ontology_url'])
                 G.parse(data)
                 print(f"\033[31mOntology extracted using the link {graph_nodes_subset_config_obj['ontology_url']}\033[0m")
+                if logger is not None:
+                    logger.info(f"Ontology extracted using the link {graph_nodes_subset_config_obj['ontology_url']}")
             elif 'ontology_path' in graph_nodes_subset_config_obj:
                 if os.path.exists(graph_nodes_subset_config_obj['ontology_path']):
                     with open(graph_nodes_subset_config_obj['ontology_path']) as oo_fn:
@@ -124,7 +126,8 @@ def _nodes_subset_ontologies_graph(graph_nodes_subset_config=None):
 def build_graph_html(revision, paths,
                      include_title=True,
                      template_location="local",
-                     include_ttl_content_within_html=True):
+                     include_ttl_content_within_html=True,
+                     logger=None):
 
     default_graph_graphical_config_patter_fn = '*_graph_graphical_config.json'
     graph_nodes_subset_config_patter_fn = '*_graph_nodes_subset_config.json'
@@ -185,7 +188,7 @@ def build_graph_html(revision, paths,
         .replace("\\n", '\\\\n') \
         .replace("\\t", '\\\\t')
 
-    overall_graph = extract_graph(revision, paths, graph_nodes_subset_config=graph_nodes_subset_config_obj)
+    overall_graph = extract_graph(revision, paths, graph_nodes_subset_config=graph_nodes_subset_config_obj, logger=logger)
     graph_str = overall_graph.serialize(format="n3")
 
     full_graph_ttl_str = graph_str.replace("\\\"", '\\\\"')
