@@ -69,6 +69,8 @@ class HTTPGraphHandler(SimpleHTTPRequestHandler):
                                                                                include_ttl_content_within_html=False,
                                                                                logger=logging.getLogger())
                 self.wfile.write(graph_html_content.encode())
+
+                logging.info(f"ttl graph = {ttl_content}")
             except Exception as e:
                 javascript_page_reload_snippet = '''
                     window.addEventListener('load', function() {{
