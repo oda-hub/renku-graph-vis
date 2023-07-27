@@ -71,7 +71,7 @@ class HTTPGraphHandler(SimpleHTTPRequestHandler):
                 self.wfile.write(graph_html_content.encode())
                 logging.info(f'writing ttl_content during {self.path} processing')
                 with open("ttl_content_main_get", "w") as ttl_content_main_get_f:
-                    ttl_content_main_get_f.writelines(ttl_content.serialize(format="n3"))
+                    ttl_content_main_get_f.writelines(ttl_content)
             except Exception as e:
                 javascript_page_reload_snippet = '''
                     window.addEventListener('load', function() {{
