@@ -110,6 +110,7 @@ def _nodes_subset_ontologies_graph(graph_nodes_subset_config=None):
             if 'ontology_url' in graph_nodes_subset_config_obj:
                 data = urllib.request.urlopen(graph_nodes_subset_config_obj['ontology_url'])
                 G.parse(data)
+                print(f"\033[31mOntology extracted using the link {graph_nodes_subset_config_obj['ontology_url']}\033[0m")
             elif 'ontology_path' in graph_nodes_subset_config_obj:
                 if os.path.exists(graph_nodes_subset_config_obj['ontology_path']):
                     with open(graph_nodes_subset_config_obj['ontology_path']) as oo_fn:
