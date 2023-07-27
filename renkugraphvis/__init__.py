@@ -69,7 +69,7 @@ class HTTPGraphHandler(SimpleHTTPRequestHandler):
                                                                                include_ttl_content_within_html=False,
                                                                                logger=logging.getLogger())
                 self.wfile.write(graph_html_content.encode())
-
+                logging.info(f'writing ttl_content during {self.path} processing')
                 with open("ttl_content_main_get", "w") as ttl_content_main_get_f:
                     ttl_content_main_get_f.writelines(ttl_content.serialize(format="n3"))
             except Exception as e:
@@ -109,6 +109,7 @@ class HTTPGraphHandler(SimpleHTTPRequestHandler):
             graph_ttl_content = graph_utils.extract_graph(None, paths=os.getcwd())
             graph_ttl_content_str = graph_ttl_content.serialize(format="n3")
             logging.info(f"ttl graph = {graph_ttl_content_str}")
+            logging.info(f'writing ttl_content during {self.path} processing')
             with open("ttl_content_ttl_graph_get", "w") as ttl_content_ttl_graph_get_f:
                 ttl_content_ttl_graph_get_f.writelines(graph_ttl_content_str)
             repo = Repo('.')
