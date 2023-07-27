@@ -104,7 +104,7 @@ class HTTPGraphHandler(SimpleHTTPRequestHandler):
         if self.path.startswith('/ttl_graph'):
             graph_ttl_content = graph_utils.extract_graph(None, paths=os.getcwd())
             graph_ttl_content_strr = graph_ttl_content.serialize(format="n3")
-            logging.info(f"ttl graph = {graph_ttl_content_strr[0:100]}")
+            logging.info(f"ttl graph = {graph_ttl_content_strr}")
             repo = Repo('.')
             sha = repo.head.commit.hexsha
             short_sha = repo.git.rev_parse(sha, short=8)
