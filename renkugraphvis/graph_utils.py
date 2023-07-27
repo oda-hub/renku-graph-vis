@@ -104,6 +104,11 @@ def extract_graph(revision, paths, graph_nodes_subset_config=None, logger=None):
 
 def _nodes_subset_ontologies_graph(graph_nodes_subset_config=None, logger=None):
     G = rdflib.Graph()
+    print(f"\033[31mInto ontology extraction function\033[0m")
+    print(json.dumps(graph_nodes_subset_config, sort_keys=True, indent=4))
+    if logger is not None:
+        logger.info(f"Into ontology extraction function")
+        logger.info(json.dumps(graph_nodes_subset_config, sort_keys=True, indent=4))
     if graph_nodes_subset_config is not None:
         for graph_nodes_subset_config_obj_key in graph_nodes_subset_config:
             graph_nodes_subset_config_obj = graph_nodes_subset_config[graph_nodes_subset_config_obj_key]
