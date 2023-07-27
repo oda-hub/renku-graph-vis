@@ -141,7 +141,7 @@ def get_graph_nodes_subset_config_obj(graph_nodes_subset_config_patter_fn='*_gra
     return graph_nodes_subset_config_obj
 
 
-def get_graph_reduction_config_obj(graph_reduction_config_patter_fn = '*_graph_reduction_config.json'):
+def get_graph_reduction_config_obj(graph_reduction_config_patter_fn='*_graph_reduction_config.json'):
     reduction_config_list_files = glob.glob(os.path.join(__conf_dir__, graph_reduction_config_patter_fn))
 
     graph_reduction_config_obj = None
@@ -154,7 +154,7 @@ def get_graph_reduction_config_obj(graph_reduction_config_patter_fn = '*_graph_r
     return graph_reduction_config_obj
 
 
-def get_graph_graphical_config_obj(graph_graphical_config_patter_fn = '*_graph_graphical_config.json'):
+def get_graph_graphical_config_obj(graph_graphical_config_patter_fn='*_graph_graphical_config.json'):
     graphical_config_list_files = glob.glob(os.path.join(__conf_dir__, graph_graphical_config_patter_fn))
     nodes_graph_config_obj = {}
     edges_graph_config_obj = {}
@@ -179,7 +179,7 @@ def get_graph_graphical_config_obj(graph_graphical_config_patter_fn = '*_graph_g
 
         graph_config_names_list.append(config_file_fn)
 
-    return nodes_graph_config_obj, edges_graph_config_obj
+    return nodes_graph_config_obj, edges_graph_config_obj, graph_config_names_list
 
 
 def build_graph_html(revision, paths,
@@ -189,7 +189,7 @@ def build_graph_html(revision, paths,
                      logger=None):
 
     # for compatibility with Javascript
-    nodes_graph_config_obj, edges_graph_config_obj = get_graph_graphical_config_obj()
+    nodes_graph_config_obj, edges_graph_config_obj, graph_config_names_list = get_graph_graphical_config_obj()
     nodes_graph_config_obj_str = json.dumps(nodes_graph_config_obj).replace("\\\"", '\\\\"')
     edges_graph_config_obj_str = json.dumps(edges_graph_config_obj).replace("\\\"", '\\\\"')
 
