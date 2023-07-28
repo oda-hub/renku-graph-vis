@@ -66,8 +66,7 @@ class HTTPGraphHandler(SimpleHTTPRequestHandler):
                 self.end_headers()
                 graph_html_content, ttl_content = graph_utils.build_graph_html(None, paths=os.getcwd(),
                                                                                template_location="remote",
-                                                                               include_ttl_content_within_html=False,
-                                                                               logger=logging.getLogger())
+                                                                               include_ttl_content_within_html=False)
                 self.wfile.write(graph_html_content.encode())
             except Exception as e:
                 javascript_page_reload_snippet = '''
