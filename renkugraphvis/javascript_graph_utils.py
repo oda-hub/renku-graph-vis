@@ -43,7 +43,7 @@ def set_html_content(net,
             <button type="button" class="btn btn-secondary btn-sm collapsible_vertical_menu">Menu</button>
             <button type="button" class="btn btn-secondary btn-sm collapsible_horizontal_legend">Legend</button>
             <button type="button" class="btn btn-secondary btn-sm float-end" id="githubIssueLink-btn">
-                <a href="#" id="githubIssueLink" onclick="includeTitleGithubIssueLink()" target="_blank">Make a suggestion</a>
+                <a href="#" id="githubIssueLink" onclick="includeTitleGithubIssueLink()" target="_blank">Make a Suggestion</a>
             </button>
             <div id="ttl_content" class="content_collapsible_vertical_ttl"></div>
 
