@@ -1,8 +1,8 @@
 # renku-graph-vis plugin
 
-This Renku plugin offers an interactive visual representation of the project Knowledge Graph. Users can access the visualization through a CLI command, making it easy to generate graphical representations in different ways. Additionally, the graph can be explored during an interactive Renku session, ensuring a live overview of the project's development.
+This Renku plugin offers a visual representation of the project Knowledge Graph. Users can access the visualization through a CLI command, as well as during an interactive Renku session. The plugin allows users to have a live overview of the project's development through the Knowledge Graph.
 
-Furthermore, users have the option to enrich the graph with an ontology, which enhances the understanding of individual components by identifying their specific types, enabling also the users in gaining a better understanding of the interconnections within the Knowledge Graph.
+Additionally, the plugin provides an option for users to enrich the graph with an ontology. By doing so, the plugin can identify specific types of individual components, thus enhancing the understanding of those. This enrichment allows users to gain a better understanding of the interconnections within the Knowledge Graph.
 
 ## Graphical visualization of the graph
 
