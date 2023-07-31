@@ -49,7 +49,7 @@ The CLI command generates an interactive, web-based, graphical representation of
 $ renku graphvis show-graph
  ```
 
-![](readme_imgs/example_show-graph.png)
+![show_graph_main](readme_imgs/example_show-graph.png)
 
 By clicking on any node in the graph, users can interact with it. This action triggers the expansion of the mode: a `SPARQL` query is dynamically constructed, this retrieves all the nodes and edges directly linked to the clicked node. The animation below illustrates this behavior. It can also be seen that, after the expansion of a node, the newly added nodes can be reabsorbed by clicking on the same node once again.
 
@@ -58,14 +58,16 @@ By clicking on any node in the graph, users can interact with it. This action tr
 </div>
 <br clear="left"/>
 
-The interface provides the user with a number of adjustable options, accessible via dedicated menus:
+The interface provides the user with a number of adjustable options, accessible via a dedicated menu, displayed in the picture below.
 
 <div align="center">
 <img align="center" width="65%" src="readme_imgs/graph_menu.png">
 </div>
 
+The following options are available:
+
 <!-- TODO to improve hierarchical layout -->
-* **Change Graph Layout**: Currently, two layouts are supported.
+* **Change Graph Layout**: Currently, two layouts are supported:
   * _Random_: Nodes and edges are displayed randomly over the dedicated frame (as shown in the picture above).
   * _Hierarchical_: Nodes and edges are displayed in a hierarchical visualization. 
 An example of this layout is displayed in the image below.
@@ -73,17 +75,15 @@ An example of this layout is displayed in the image below.
   <img src="readme_imgs/hierarchical_view_2.png" width="65%" />
   </div>
 
-* **Enable/Disable Selection of Subsets of Nodes**: This feature allows users to filter certain subsets of nodes 
-(e.g., astroquery-related nodes). The configuration can be done through a dedicated JSON file, 
-as explained [here](https://github.com/oda-hub/renku-aqs-graph-library/#selection-of-subset-of-nodes).
+* **Enable/Disable Selection of Subsets of Nodes**: This feature allows users to filter certain subsets of nodes (e.g., astroquery-related nodes). The configuration can be done through a dedicated JSON file, 
+as explained [here](https://github.com/oda-hub/renku-aqs-graph-library/#selection-of-subset-of-nodes). The animation below gives a demonstration.
 
 <div align="center">
-<img width="30%" src="readme_imgs/enable_disable_set_nodes-graph.png">
+<img width="65%" src="readme_imgs/enable_disable_oda_nodes_selection.gif">
 </div>
 
 * **Apply Absorptions of Nodes on the Graph**: Users can enable the display of 
-specific nodes along with their child nodes absorbed within. Conversely, they can display regular separate nodes. 
-For example, in the images below, the Activity node shows its child nodes inside it (left image) 
+specific nodes along with their child nodes absorbed within. Conversely, they can display regular separate nodes. For example, in the images below, the Activity node has its child nodes inside it (left image) 
 and as separate nodes (right image). This functionality is configurable through a dedicated JSON file, 
 as explained [here](https://github.com/oda-hub/renku-aqs-graph-library/#absorptionexpansion-of-nodes).
 <div align="center">
@@ -95,9 +95,11 @@ as explained [here](https://github.com/oda-hub/renku-aqs-graph-library/#absorpti
 * **Enable/Disable Graphical Configurations for the Graph**:  This feature allows users to enable or disable a set 
 of graphical configurations for the graph's nodes and edges. Each configuration is loaded from a dedicated JSON file, as explained [here](https://github.com/oda-hub/renku-aqs-graph-library/#graphical). In the image below, two JSON files have been loaded, and the related checkboxes will enable/disable their configurations.
 
-<div align="center">
-<img width="30%" src="readme_imgs/enable_disable_configuration-graph.png">
-</div>
+[//]: # (<div align="center">)
+
+[//]: # (<img width="30%" src="readme_imgs/enable_disable_configuration-graph.png">)
+
+[//]: # (</div>)
 
 The functionalities for graph drawing and user interactions are developed in a dedicated JavaScript library 
 available at the following [repository](https://github.com/oda-hub/renku-aqs-graph-library/). 
