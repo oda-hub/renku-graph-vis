@@ -111,7 +111,7 @@ The graph can be displayed during an interactive Renkulab session by including `
 The graph dynamically updates while working in the session. In the example below, the execution of a notebook is started, and when it completes, the graph is automatically reloaded to include the latest execution.
 
 <div align="center">
-<img width="75%" src="readme_imgs/renkulab_execution_example_1.gif">
+<img width="75%" src="readme_imgs/renkulab_execution_example_3.gif">
 </div>
 
 ### Ontology integration into the graph
