@@ -6,38 +6,40 @@ Additionally, the plugin provides an option for users to enrich the graph with a
 
 ## Graphical visualization of the graph
 
-Starting from the project Knowledge graph extracted from the renku project, it is queried to retrieve the needed 
-information and generate an interactive graphical representation.
+Starting from the project Knowledge Graph, extracted directly from the renku project, this is queried to retrieve the needed information and generate a graphical representation.
 
 Two main sets of functionalities are provided:
 
 * Two CLI commands
   * `display`: Generates a representation of the graph as an output image.
-  * `show-graph`: Starts an interactive visualization of the graph in the browser.
+  * `show-graph`: Starts an interactive visualization of the graph in the web browser.
 * Dynamic visualization of the graph during a Renku session.
 
 ## `display` command
 
 The CLI command outputs a graphical representation of the graph as a PNG image.
 
-#### Parameters
-
-* `--filename`: The filename of the output image file. Currently, only PNG images are supported (e.g., --filename graph.png). The default is graph.png.
-* `--input`: Specifies the input entity to process (e.g., input notebook for a Papermill execution). If not specified, it will query for all the executions from all input entities.  
-<!-- TODO to be properly tested, and not included before release
-* `--revision`:  The revision of the Renku project from which the graph should be extracted. The default is `HEAD`.-->   
-
 ```bash
 $ renku graphvis display
  ```
 ![](readme_imgs/example_display_graph_complete_2.png)
 
-#### Specify input
-```bash
-$ renku graphvis display --input final-an.ipynb
- ```
+#### Parameters
 
-![](readme_imgs/example_display_graph_final-an_1.png)
+* `--filename`: The filename of the output image file. Currently, only PNG images are supported. The default is graph.png.
+
+  ```bash
+  $ renku graphvis display --filename graph.png
+  ```
+* `--input`: Specifies the input entity to process (e.g., input notebook for a Papermill execution). If not specified, it will query for all the executions from all input entities.
+  ```bash
+  $ renku graphvis display --input final-an.ipynb`
+  ```
+  ![](readme_imgs/example_display_graph_final-an_1.png)
+<!-- TODO to be properly tested, and not included before release
+* `--revision`:  The revision of the Renku project from which the graph should be extracted. The default is `HEAD`.-->   
+
+
 
 ## `show-graph` command
 
