@@ -75,25 +75,22 @@ An example of this layout is displayed in the image below.
   <img src="readme_imgs/hierarchical_view_2.png" width="65%" />
   </div>
 
-* **Enable/Disable Selection of Subsets of Nodes**: This feature allows users to filter certain subsets of nodes (e.g., astroquery-related nodes). The configuration can be done through a dedicated JSON file, 
-as explained [here](https://github.com/oda-hub/renku-aqs-graph-library/#selection-of-subset-of-nodes). The animation below gives a demonstration.
+<!-- TODO a better naming was suggested, but I don't remember it-->
+* **Enable/Disable Selection of Subsets of Nodes**: This feature allows users to filter certain subsets of nodes (e.g., astroquery-related nodes). The configuration can be done through a dedicated JSON file. The animation below gives a demonstration.
 
 <div align="center">
 <img width="65%" src="readme_imgs/enable_disable_oda_nodes_selection.gif">
 </div>
 
 * **Apply Absorptions of Nodes on the Graph**: Users can enable the display of 
-specific nodes along with their child nodes absorbed within. Conversely, they can display regular separate nodes. For example, in the images below, the Activity node has its child nodes inside it (left image) 
-and as separate nodes (right image). This functionality is configurable through a dedicated JSON file, 
-as explained [here](https://github.com/oda-hub/renku-aqs-graph-library/#absorptionexpansion-of-nodes).
-<div align="center">
-<img align="center" width="37%" src="readme_imgs/reduced_activity.png">
-<img align="center" width="38%" src="readme_imgs/expanded_activity.png">
-</div>
-<br clear="left"/>
+specific nodes along with their child nodes absorbed within. Conversely, they can display regular separate nodes. For example, in the images below, the Activity node has its child nodes inside it (left image) and as separate nodes (right image). This functionality is configurable through a dedicated JSON file. The animation below gives a demonstration.
 
-* **Enable/Disable Graphical Configurations for the Graph**:  This feature allows users to enable or disable a set 
-of graphical configurations for the graph's nodes and edges. Each configuration is loaded from a dedicated JSON file, as explained [here](https://github.com/oda-hub/renku-aqs-graph-library/#graphical). In the image below, two JSON files have been loaded, and the related checkboxes will enable/disable their configurations.
+<div align="center">
+<img width="65%" src="readme_imgs/activity_reduction_animation.gif">
+</div>
+
+
+* **Enable/Disable Graphical Configurations for the Graph**:  This feature allows users to enable or disable a set of graphical configurations for the graph's nodes and edges. Each configuration is loaded from a dedicated JSON file, as explained [here](https://github.com/oda-hub/renku-aqs-graph-library/#graphical). In the image below, two JSON files have been loaded, and the related checkboxes will enable/disable their configurations.
 
 [//]: # (<div align="center">)
 
@@ -101,15 +98,11 @@ of graphical configurations for the graph's nodes and edges. Each configuration 
 
 [//]: # (</div>)
 
-The functionalities for graph drawing and user interactions are developed in a dedicated JavaScript library 
-available at the following [repository](https://github.com/oda-hub/renku-aqs-graph-library/). 
-Detailed descriptions of the various configuration files and the library's functionalities are also provided.
+The functionalities for graph drawing and user interactions are developed in a dedicated JavaScript library available at the following [repository](https://github.com/oda-hub/renku-aqs-graph-library/). Detailed descriptions of the various configuration files and the library's functionalities are also provided.
 
 ### Graph visualization within a renkulab session
 
-The graph can be displayed during an interactive Renkulab session by including `renku_graph_vis` 
-within the project's requirements. A dedicated button will then be displayed in the Renkulab launcher when 
-a new session is started. This will open a dedicated tab for the visualization of the Graph.
+The graph can be displayed during an interactive Renkulab session by including `renku_graph_vis` within the project's requirements. A dedicated button will then be displayed in the Renkulab launcher when  a new session is started. This will open a dedicated tab for the visualization of the Graph.
 
 <div align="center">
 <img width="75%" src="readme_imgs/renkulab_overview_example_1.png">
