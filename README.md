@@ -43,7 +43,7 @@ $ renku graphvis display
 
 ## `show-graph` command
 
-The CLI command generates an interactive, web-based, graphical representation of the graph.
+The CLI command generates an interactive, web-based, graphical representation of the project Knowledge Graph.
 
 ```bash
 $ renku graphvis show-graph
@@ -51,18 +51,18 @@ $ renku graphvis show-graph
 
 ![](readme_imgs/example_show-graph.png)
 
-Users can interact with the graph by clicking on any of its nodes. Upon clicking, 
-a `SPARQL` query is dynamically built, retrieving all the nodes and edges directly 
-connected to the clicked node. This behavior is shown in the animation below. 
-When a node is expanded, the newly added nodes can be re-absorbed by clicking on the same node again. 
-This process is also demonstrated in the animation below.
+By clicking on any node in the graph, users can interact with it. This action triggers the expansion of the mode: a `SPARQL` query is dynamically constructed, this retrieves all the nodes and edges directly linked to the clicked node. The animation below illustrates this behavior. It can also be seen that, after the expansion of a node, the newly added nodes can be reabsorbed by clicking on the same node once again.
 
 <div align="center">
 <img align="center" width="65%" src="readme_imgs/animation_expansion_retraction_2.gif">
 </div>
 <br clear="left"/>
 
-The interface provides the user with a number of adjustable options:
+The interface provides the user with a number of adjustable options, accessible via dedicated menus:
+
+<div align="center">
+<img align="center" width="65%" src="readme_imgs/graph_menu.png">
+</div>
 
 <!-- TODO to improve hierarchical layout -->
 * **Change Graph Layout**: Currently, two layouts are supported.
