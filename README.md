@@ -84,7 +84,7 @@ An example of this layout is displayed in the image below.
 </div>
 
 * **Apply Absorptions of Nodes on the Graph**: Users can enable the display of 
-specific nodes along with their child nodes absorbed within. Conversely, they can display regular separate nodes. For example, in the animation below, it can be seen that the `Activity` node has its child nodes inside it as well as separate nodes. This functionality is configurable through a dedicated JSON file.
+specific nodes along with their child nodes absorbed within. Conversely, they can display regular separate nodes. For example, in the animation below, it can be seen that the `Activity` node has some of its child nodes (i.e. inputs and outputs) inside it as well as separate nodes. This functionality is configurable through a dedicated JSON file.
 
 <div align="center">
 <img width="65%" src="readme_imgs/activity_reduction_animation.gif">
