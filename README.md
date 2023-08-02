@@ -63,7 +63,7 @@ The interface provides the user with a number of adjustable options, accessible 
 <div align="center">
 <img align="center" width="65%" src="readme_imgs/graph_menu.png">
 </div>
-<br/>
+<br clear="left"/>
 
 The following options are available:
 
