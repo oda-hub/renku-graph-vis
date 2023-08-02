@@ -91,13 +91,11 @@ specific nodes along with their child nodes absorbed within, using a set of dedi
 </div>
 
 
-* **Enable/Disable Graphical Configurations for the Graph**:  This feature allows users to enable or disable a set of graphical configurations for the graph's nodes and edges. Each configuration is loaded from a dedicated JSON file. In the image below, two JSON files have been loaded, and the related checkboxes will enable/disable their configurations.
+* **Enable/Disable Graphical Configurations for the Graph**:  This feature allows users to enable or disable a set of graphical configurations for the graph's nodes and edges. Each configuration is loaded from a dedicated JSON file, and can be enabled and disabled via a dedicated checkbox. In the animation below, it can be seen that two JSON files have been loaded, more specifically, the loaded configuration files are `renku_graph_graphical_config.json` and `oda_graph_graphical_config.json`. In particular, the first one is disabled and then re-enabled.
 
-[//]: # (<div align="center">)
-
-[//]: # (<img width="30%" src="readme_imgs/enable_disable_configuration-graph.png">)
-
-[//]: # (</div>)
+<div align="center">
+<img width="65%" src="readme_imgs/enable_disable_graphical_configuration_animation_1.gif">
+</div>
 
 The functionalities for graph drawing and user interactions are developed in a dedicated JavaScript library available at the following [repository](https://github.com/oda-hub/renku-aqs-graph-library/). Detailed descriptions of the various configuration files and the library's functionalities are also provided.
 
