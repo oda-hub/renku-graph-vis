@@ -91,7 +91,7 @@ specific nodes along with their child nodes absorbed within, using a set of dedi
 </div>
 
 
-* **Enable/Disable Graphical Configurations for the Graph**:  This feature allows users to enable or disable a set of graphical configurations for the graph's nodes and edges. Each configuration is loaded from a dedicated JSON file, and can be enabled and disabled via a dedicated checkbox. In the animation below, it can be seen that two JSON files have been loaded, more specifically, those are `renku_graph_graphical_config.json` and `oda_graph_graphical_config.json`. In particular, the first one is disabled and then re-enabled, removing and then re-applying the properties defined in the json file.
+* **Enable/Disable Graphical Configurations for the Graph**:  This feature allows users to enable or disable a set of graphical configurations for the graph's nodes and edges. Each configuration is loaded from a dedicated JSON file, that can be enabled and disabled via a dedicated checkbox. In the animation below, it can be seen that two JSON files have been loaded, more specifically, those are `renku_graph_graphical_config.json` and `oda_graph_graphical_config.json`. In particular, the first one is disabled and then re-enabled, thus removing and then re-applying the properties defined in the json file.
 
 <div align="center">
 <img width="65%" src="readme_imgs/enable_disable_graphical_configuration_animation_1.gif">
@@ -101,7 +101,7 @@ The functionalities for graph drawing and user interactions are developed in a d
 
 ### Graph visualization within a renkulab session
 
-The graph can be displayed during an interactive Renkulab session by including `renku_graph_vis` within the project's requirements. A dedicated button will then be displayed in the Renkulab launcher when  a new session is started. This will open a dedicated tab for the visualization of the Graph.
+The graph can be displayed during an interactive Renkulab session by including the plugin as a project's requirements. A dedicated button will then be displayed in the Renkulab launcher when a new session is started. This will open a dedicated tab for the visualization of the Graph.
 
 <div align="center">
 <img width="75%" src="readme_imgs/renkulab_overview_example_1.png">
@@ -124,8 +124,7 @@ An ontology can be integrated into the graph. By doing so, it is possible to gai
 ***
 # Plugin requirements and installation
 
-The plugin is currently developed using version `2.6.0` of renku-python. Please ensure that this version is installed 
-by running:
+The plugin is currently developed using version `2.6.0` of renku-python. Please ensure that this version is installed by running:
 
 ```bash
 renku --version
@@ -139,4 +138,4 @@ The plugin can be installed via `pip`:
 pip install renku_graph_vis
 ```
 
-Or can be made available within a Renku session, by adding those in the list of requirements of the Renku project, within your `requirements.txt` file.
+Or can be made available within a Renku session, by adding those in the list of requirements of the Renku project, within your `requirements.txt` file. Once the new image is available, the plugin will be available within the renku session.
