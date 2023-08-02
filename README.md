@@ -2,7 +2,7 @@
 
 This Renku plugin offers a visual representation of the project Knowledge Graph. Users can access the visualization through a CLI command, as well as during an interactive Renku session. The plugin allows users to have a live overview of the project's development through the Knowledge Graph.
 
-Additionally, the plugin provides an option for users to enrich the graph with an ontology. By doing so, the plugin can identify specific types of individual components, thus enhancing the understanding of those. This enrichment allows users to gain a better understanding of the interconnections within the Knowledge Graph.
+Additionally, the plugin provides an option to enrich the graph with an ontology. By doing so, the plugin can identify specific types of individual components, thus enhancing the understanding of those. This enrichment allows users to gain a better understanding of the interconnections within the Knowledge Graph.
 
 ## Graphical visualization of the graph
 
@@ -33,7 +33,7 @@ $ renku graphvis display
   ```
 * `--input`: Specifies the input entity to process (e.g., input notebook for a Papermill execution). If not specified, it will query for all the executions from all input entities.
   ```bash
-  $ renku graphvis display --input final-an.ipynb`
+  $ renku graphvis display --input final-an.ipynb
   ```
   ![](readme_imgs/example_display_graph_final-an_1.png)
 <!-- TODO to be properly tested, and not included before release
@@ -51,7 +51,7 @@ $ renku graphvis show-graph
 
 ![show_graph_main](readme_imgs/example_show-graph.png)
 
-By clicking on any node in the graph, users can interact with it. This action triggers the expansion of the mode: a `SPARQL` query is dynamically constructed, this retrieves all the nodes and edges directly linked to the clicked node. The animation below illustrates this behavior. It can also be seen that, after the expansion of a node, the newly added nodes can be reabsorbed by clicking on the same node once again.
+By clicking on any node in the graph, users can interact with it. This action triggers the expansion of the node: a `SPARQL` query is dynamically constructed, this retrieves all the nodes and edges directly linked to the clicked node. The animation below illustrates this behavior. It can also be seen that, after the expansion of a node, the newly added nodes can be reabsorbed by clicking on the same node once again.
 
 <div align="center">
 <img align="center" width="65%" src="readme_imgs/animation_expansion_retraction_2.gif">
@@ -63,6 +63,7 @@ The interface provides the user with a number of adjustable options, accessible 
 <div align="center">
 <img align="center" width="65%" src="readme_imgs/graph_menu.png">
 </div>
+<br/>
 
 The following options are available:
 
