@@ -91,7 +91,7 @@ specific nodes along with their child nodes absorbed within, using a set of dedi
 </div>
 
 
-* **Enable/Disable Graphical Configurations for the Graph**:  This feature allows users to enable or disable a set of graphical configurations for the graph's nodes and edges. Each configuration is loaded from a dedicated JSON file, as explained [here](https://github.com/oda-hub/renku-aqs-graph-library/#graphical). In the image below, two JSON files have been loaded, and the related checkboxes will enable/disable their configurations.
+* **Enable/Disable Graphical Configurations for the Graph**:  This feature allows users to enable or disable a set of graphical configurations for the graph's nodes and edges. Each configuration is loaded from a dedicated JSON file. In the image below, two JSON files have been loaded, and the related checkboxes will enable/disable their configurations.
 
 [//]: # (<div align="center">)
 
