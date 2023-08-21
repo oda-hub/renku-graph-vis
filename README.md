@@ -4,7 +4,7 @@ This Renku plugin offers a visual representation of the project Knowledge Graph.
 
 Additionally, the plugin provides an option to enrich the graph with an ontology. By doing so, the plugin can identify specific types of individual components, thus enhancing the understanding of those. This enrichment allows users to gain a better understanding of the interconnections within the Knowledge Graph.
 
-## Graphical visualization of the graph
+## Visualization of the graph
 
 Starting from the project Knowledge Graph, extracted directly from the renku project, this is queried to retrieve the needed information and generate a graphical representation.
 
