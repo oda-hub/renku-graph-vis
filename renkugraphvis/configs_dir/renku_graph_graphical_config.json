@@ -1,0 +1,82 @@
+{
+   "Nodes": {
+      "Run": {
+         "shape": "box",
+         "color": "#adb6ce",
+         "font": {
+              "size": 24,
+              "face": "courier"
+          },
+         "displayed_type_name": "Query",
+         "displayed_information": "literals",
+         "displayed_literals_format": "title:no",
+         "literals_keyword_to_substitute": "title:get_images,query_object,query_region"
+      },
+      "Activity": {
+         "shape": "box",
+         "color": "#00FC10",
+         "font": {
+            "face": "courier",
+            "size": 24,
+            "bold": {
+                "size": 36
+            }
+        }
+      },
+      "CommandParameter": {
+         "shape": "box",
+         "color": "#6262be"
+      },
+      "EntityInput": {
+         "shape": "box",
+         "color": "#DBA3BC",
+         "displayed_information": "literals",
+         "displayed_literals_format": "atLocation:no"
+      },
+      "CommandOutput": {
+         "shape": "box",
+         "color": "#FFFF00",
+         "displayed_type_name": "Output",
+         "displayed_information": "literals",
+         "displayed_literals_format": "atLocation:no"
+      },
+      "CommandOutputNotebook": {
+         "shape": "box",
+         "color": "#DBA3BC",
+         "displayed_type_name": "Output notebook"
+      },
+      "CommandOutputImage": {
+         "shape": "box",
+         "color": "#FFFFFF",
+         "border": 1,
+         "displayed_type_name": "Output image"
+      },
+      "CommandOutputFitsFile": {
+         "shape": "box",
+         "color": "#FFFFFF",
+         "border": 1,
+         "displayed_type_name": "Output fits file"
+      },
+      "CommandOutputEcsvFile": {
+         "shape": "box",
+         "color": "#FFFFFF",
+         "border": 1,
+         "displayed_type_name": "Output ecsv file"
+      },
+      "CommandInput": {
+         "shape": "box",
+         "color": "#DBA3BC",
+         "displayed_type_name": "Input",
+         "displayed_information": "literals",
+         "displayed_literals_format": "defaultValue:no"
+      },
+      "Action": {
+         "shape": "box",
+         "color": "#D5C15D",
+         "style": "filled",
+         "displayed_type_name": "Plan",
+         "displayed_information": "title",
+         "displayed_literals_format": "command:no"
+      }
+   }
+}
