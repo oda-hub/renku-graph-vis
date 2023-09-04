@@ -47,7 +47,7 @@ def _check_renku_version():
 
     if required_version != __version__:
         logging.info(f"You are using renku version {__version__}, however version {required_version} "
-                     f"is required for the renku-aqs plugin.\n"
+                     f"is required for the renku-graph-vis plugin.\n"
                      "You should consider install the suggested version.",)
 
 
