@@ -10,3 +10,4 @@ oda-sdss-clean
 *.egg-info
 *.egg
 build
+**dist**
