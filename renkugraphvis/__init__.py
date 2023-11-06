@@ -44,7 +44,7 @@ logging.basicConfig(level="DEBUG")
 def _ignore_nb2workflow():
     """Ignore nb2workflow dependency generated folders and files"""
 
-    logging.debug(f"Ignoring nb2workflow automatically generated folder")
+    logging.debug("Ignoring nb2workflow automatically generated folder")
 
     gitignore_file("**.nb2workflow**")
 
