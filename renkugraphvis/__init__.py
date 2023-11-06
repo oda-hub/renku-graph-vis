@@ -35,8 +35,15 @@ from renku.version import __version__
 from http.server import SimpleHTTPRequestHandler
 from git import Repo
 
+from renkugraphvis.javascript_graph_utils import gitignore_file
+
 
 logging.basicConfig(level="DEBUG")
+
+
+def ignore_nb2workflow():
+    """Ignore nb2workflow dependency generated folders and files"""
+    gitignore_file("**.nb2workflow**")
 
 
 def _check_renku_version():
