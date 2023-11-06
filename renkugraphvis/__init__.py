@@ -35,7 +35,7 @@ from renku.version import __version__
 from http.server import SimpleHTTPRequestHandler
 from git import Repo
 
-from renkugraphvis.javascript_graph_utils import gitignore_file
+from renkugraphvis.io_utils import gitignore_file
 
 
 logging.basicConfig(level="DEBUG")
