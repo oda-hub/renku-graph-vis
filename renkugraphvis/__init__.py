@@ -27,6 +27,7 @@ import json
 import bs4
 
 import renkugraphvis.graph_utils as graph_utils
+from .io_utils import gitignore_file
 
 from . import config
 from functools import partial
@@ -35,7 +36,6 @@ from renku.version import __version__
 from http.server import SimpleHTTPRequestHandler
 from git import Repo
 
-from renkugraphvis.io_utils import gitignore_file
 
 
 logging.basicConfig(level="DEBUG")
