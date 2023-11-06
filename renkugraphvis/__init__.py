@@ -41,7 +41,7 @@ from renkugraphvis.io_utils import gitignore_file
 logging.basicConfig(level="DEBUG")
 
 
-def ignore_nb2workflow():
+def _ignore_nb2workflow():
     """Ignore nb2workflow dependency generated folders and files"""
     gitignore_file("**.nb2workflow**")
 
@@ -185,3 +185,4 @@ def setup_graph_visualizer():
 
 
 _check_renku_version()
+_ignore_nb2workflow()
