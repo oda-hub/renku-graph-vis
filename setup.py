@@ -25,7 +25,8 @@ install_requires = [
     'nb2workflow>=1.3.41',
     'pyvis==0.3.0',
     'pydotplus',
-    'lockfile'
+    'lockfile',
+    'ruamel.yaml<=0.17.21,>=0.12.4'
 ]
 
 packages = find_packages()
