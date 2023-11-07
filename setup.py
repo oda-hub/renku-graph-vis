@@ -25,7 +25,8 @@ install_requires = [
     'nb2workflow>=1.3.41',
     'pyvis==0.3.0',
     'pydotplus',
-    'lockfile'
+    'lockfile',
+    'click<9.0.0,>=8.1.7'
 ]
 
 packages = find_packages()
