@@ -22,11 +22,10 @@ install_requires = [
     'rdflib',
     'bs4',
     'renku==2.7.0',
-    'nb2workflow>=1.3.41',
+    'nb2workflow>=1.3.41,<=1.3.42',
     'pyvis==0.3.0',
     'pydotplus',
-    'lockfile',
-    'cwl-utils>=0.27,<0.28'
+    'lockfile'
 ]
 
 packages = find_packages()
