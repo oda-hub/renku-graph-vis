@@ -17,7 +17,7 @@ Two main sets of functionalities are provided:
 
 ## `display` command
 
-The CLI command outputs a graphical representation of the graph as a PNG image.
+This CLI command outputs a graphical representation of the whole project knowledge graph, as a PNG image. The graph displayed will be containing also the ontology (if this is loaded via the configuration, as explained later within this document).
 
 ```bash
 $ renku graphvis display
@@ -37,9 +37,7 @@ $ renku graphvis display
   ```
   ![](readme_imgs/example_display_graph_final-an_1.png)
 <!-- TODO to be properly tested, and not included before release
-* `--revision`:  The revision of the Renku project from which the graph should be extracted. The default is `HEAD`.-->   
-
-
+* `--revision`:  The revision of the Renku project from which the graph should be extracted. The default is `HEAD`.-->
 
 ## `show-graph` command
 
