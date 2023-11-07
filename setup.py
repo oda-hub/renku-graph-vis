@@ -21,11 +21,13 @@ install_requires = [
     'pydotplus',
     'rdflib',
     'bs4',
-    'renku==2.6.0',
+    'renku==2.7.0',
     'nb2workflow>=1.3.41',
     'pyvis==0.3.0',
     'pydotplus',
-    'lockfile'
+    'lockfile',
+    'click<9.0.0,>=8.1.7',
+    'ruamel.yaml<=0.16.5,>=0.12.4'
 ]
 
 packages = find_packages()

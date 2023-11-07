@@ -37,7 +37,6 @@ from http.server import SimpleHTTPRequestHandler
 from git import Repo
 
 
-
 logging.basicConfig(level="DEBUG")
 
 
