@@ -26,7 +26,7 @@ install_requires = [
     'pyvis==0.3.0',
     'pydotplus',
     'lockfile',
-    'click<9.0.0,>=8.1.7'
+    'ruamel.yaml<=0.16.5,>=0.12.4'
 ]
 
 packages = find_packages()
