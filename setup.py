@@ -22,7 +22,7 @@ install_requires = [
     'rdflib',
     'bs4',
     'renku==2.7.0',
-    'nb2workflow<=1.3.42,>=1.3.41',
+    'nb2workflow>=1.3.41,',
     'pyvis==0.3.0',
     'pydotplus',
     'lockfile'
