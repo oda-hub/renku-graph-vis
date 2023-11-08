@@ -27,7 +27,6 @@ import json
 import bs4
 
 import renkugraphvis.graph_utils as graph_utils
-from .io_utils import gitignore_file
 
 from . import config
 from functools import partial
