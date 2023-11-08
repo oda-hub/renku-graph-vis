@@ -17,7 +17,7 @@ Two main sets of functionalities are provided:
 
 ## `display` command
 
-This CLI command outputs a graphical representation of the whole project knowledge graph, as a PNG image. The graph displayed will be containing also the ontology (if this is loaded via the configuration, as explained later within this document).
+The CLI command outputs a graphical representation of the graph as a PNG image.
 
 ```bash
 $ renku graphvis display
@@ -105,15 +105,7 @@ The graph can be displayed during an interactive Renkulab session by including t
 <img width="75%" src="readme_imgs/renkulab_overview_example_1.png">
 </div>
 
-The graph dynamically updates while working in the session. In particular, the `renku run` command will trigger the recording of some information about the inputs, the outputs, and the actual execution of the command that will be stored within the project knowledge graph (as documented [here](https://renku.readthedocs.io/en/stable/topic-guides/miscellaneous/knowledge-graph.html)).
-
-For instance, for the execution of a notebook called `test-notebook.ipynb`, using `papermill`, the command will be the following:
-
-```bash
-$ renku run papermill test-notebook.ipynb out.ipynb
-```
-
-In the example below, the execution of a notebook is started using `papermill``, and when it completes, the graph is automatically reloaded to include the newly recorded information.
+The graph dynamically updates while working in the session. In the example below, the execution of a notebook is started, and when it completes, the graph is automatically reloaded to include the latest execution.
 
 <div align="center">
 <img width="75%" src="readme_imgs/renkulab_execution_example_3.gif">
