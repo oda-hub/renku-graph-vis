@@ -122,7 +122,7 @@ An ontology can be integrated into the graph. By doing so, it is possible to gai
 ***
 # Plugin requirements and installation
 
-The plugin is currently developed using version `2.7.0` of renku-python. Please ensure that this version is installed by running:
+The plugin is compatible with a minimum version of `renku-python` of `2.7.0`. Please ensure that the version you have installed is compatible by using the command:
 
 ```bash
 renku --version
