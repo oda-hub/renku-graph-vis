@@ -40,14 +40,6 @@ from git import Repo
 logging.basicConfig(level="DEBUG")
 
 
-def _ignore_nb2workflow():
-    """Ignore nb2workflow dependency generated folders and files"""
-
-    logging.debug("Ignoring nb2workflow automatically generated folder")
-
-    gitignore_file("**.nb2workflow**")
-
-
 def _check_renku_version():
     """Check renku version."""
 
@@ -187,4 +179,3 @@ def setup_graph_visualizer():
 
 
 _check_renku_version()
-_ignore_nb2workflow()
