@@ -21,7 +21,7 @@ install_requires = [
     'pydotplus',
     'rdflib',
     'bs4',
-    'renku==2.7.0',
+    'renku>=2.7,<3',
     'pyvis==0.3.0',
     'pydotplus',
     'lockfile'
