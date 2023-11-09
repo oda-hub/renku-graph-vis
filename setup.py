@@ -41,7 +41,6 @@ setup(
     python_requires='>=3.9,<3.12',
     packages=packages,
     entry_points={
-        "renku": ["name_of_plugin = renkugraphvis.plugin"],
         "renku.cli_plugins": ["graphvis = renkugraphvis.plugin:graphvis"],
         "jupyter_serverproxy_servers": ["interactive_graph = renkugraphvis:setup_graph_visualizer"]
     },
