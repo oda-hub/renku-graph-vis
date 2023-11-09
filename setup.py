@@ -21,8 +21,7 @@ install_requires = [
     'pydotplus',
     'rdflib',
     'bs4',
-    'renku==2.6.0',
-    'nb2workflow>=1.3.41',
+    'renku>=2.7,<3',
     'pyvis==0.3.0',
     'pydotplus',
     'lockfile'
@@ -39,6 +38,7 @@ setup(
     author='Gabriele Barni, Volodymyr Savchenko',
     author_email='',
     install_requires=install_requires,
+    python_requires='>=3.9,<3.12',
     packages=packages,
     entry_points={
         "renku": ["name_of_plugin = renkugraphvis.plugin"],
