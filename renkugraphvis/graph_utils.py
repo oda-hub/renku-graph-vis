@@ -19,6 +19,7 @@ from renku.command.graph import export_graph_command
 from renku.core.errors import RenkuException
 
 import renkugraphvis.javascript_graph_utils as javascript_graph_utils
+import renkugraphvis.io_utils as io_utils
 
 from renkugraphvis.config import ENTITY_METADATA_GRAPHVIS_DIR
 
@@ -67,10 +68,10 @@ def write_graph_files(graph_html_content, ttl_content):
     with open(ttl_fn, 'w') as gfn:
         gfn.write(ttl_content)
 
-    javascript_graph_utils.gitignore_file(ttl_fn)
+    io_utils.gitignore_file(ttl_fn)
 
     javascript_graph_utils.write_modified_html_content(graph_html_content, html_fn)
-    javascript_graph_utils.gitignore_file(html_fn)
+    io_utils.gitignore_file(html_fn)
 
     return html_fn, ttl_fn
 
