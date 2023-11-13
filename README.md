@@ -17,7 +17,7 @@ Two main sets of functionalities are provided:
 
 ## `display` command
 
-The plugin is currently developed using version `2.7.0` of renku-python. Please ensure that this version is installed by running:
+The CLI command outputs a graphical representation of the graph as a PNG image.
 
 ```bash
 $ renku graphvis display
@@ -132,7 +132,7 @@ An ontology can be integrated into the graph. By doing so, it is possible to gai
 ***
 # Plugin requirements and installation
 
-The plugin is currently developed using version `2.6.0` of renku-python. Please ensure that this version is installed by running:
+The plugin is currently developed using version `2.7.0` of renku-python. Please ensure that a compatible version (starting with `2` and at least `2.7`) is installed by running:
 
 ```bash
 renku --version
