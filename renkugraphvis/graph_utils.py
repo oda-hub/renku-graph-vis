@@ -68,10 +68,8 @@ def write_graph_files(graph_html_content, ttl_content):
     with open(ttl_fn, 'w') as gfn:
         gfn.write(ttl_content)
 
-    io_utils.gitignore_file(ttl_fn)
-
     javascript_graph_utils.write_modified_html_content(graph_html_content, html_fn)
-    io_utils.gitignore_file(html_fn)
+    io_utils.gitignore_file(html_fn, ttl_fn)
 
     return html_fn, ttl_fn
 
@@ -316,6 +314,8 @@ def build_graph_image(revision, paths, filename, input_entity):
 
     # final output write over the png image
     pydot_graph.write_png(filename)
+
+    io_utils.gitignore_file(filename)
 
     return filename
 
