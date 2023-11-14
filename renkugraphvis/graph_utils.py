@@ -315,6 +315,8 @@ def build_graph_image(revision, paths, filename, input_entity):
     # final output write over the png image
     pydot_graph.write_png(filename)
 
+    io_utils.gitignore_file(filename)
+
     return filename
 
 
